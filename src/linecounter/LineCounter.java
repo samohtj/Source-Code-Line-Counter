@@ -106,21 +106,22 @@ public class LineCounter {
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int val = chooser.showOpenDialog(null);
 		
-		// Get the file extensions that we want to check for
-		String exts = JOptionPane
-				.showInputDialog(frame, "Enter the extensions you would like to check for, separated by commas:")
-				.replaceAll("\\s", "");
-		validExts = exts.split(",");
-		
 		// If the chooser returned a file, run the program on it
 		if(val==JFileChooser.APPROVE_OPTION){
+			// Get the file extensions that we want to check for
+			String exts = JOptionPane
+					.showInputDialog(frame, "Enter the extensions you would like to check for, separated by commas:")
+					.replaceAll("\\s", "");
+			validExts = exts.split(",");	
+			
 			// Start by checking the directory given
 			loopDir(chooser.getSelectedFile());
+
+			// Print out the results
+			JOptionPane.showMessageDialog(frame, "Folder contained "+numFiles+" files, "+numFolders+" directories\n"
+					+numLines+" total lines of code.");
 		}
 		
-		// Print out the results
-		JOptionPane.showMessageDialog(frame, "Folder contained "+numFiles+" files, "+numFolders+" directories\n"
-				+numLines+" total lines of code.");
 	}
 	
 	public static void main(String[] args){
