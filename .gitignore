@@ -62,3 +62,4 @@ $RECYCLE.BIN/
 /bin
 .settings
 .classpath
+.project
