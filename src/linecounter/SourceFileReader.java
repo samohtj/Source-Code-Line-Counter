@@ -86,6 +86,12 @@ public class SourceFileReader {
 				return false;
 		}
 		
+		
+		// TODO Add support for languages with more than one line comment character
+		/*
+		if(commentChars.length > 3)
+			detectCommentLine(line);
+		*/
 		// If we haven't discovered that a line isn't a comment, then it must be a comment
 		return true;
 	}
