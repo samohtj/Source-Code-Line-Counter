@@ -68,7 +68,6 @@ public class LineCounter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		return totalLines;
 	}
 	
