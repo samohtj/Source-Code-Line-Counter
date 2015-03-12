@@ -9,11 +9,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class Interface extends JFrame{
+public class UserInterface extends JFrame{
 	
 	JComboBox<?> languagesDropDown = new JComboBox<Object>(LanguagesList.availableLangs);
 	
-	public Interface(){
+	public UserInterface(){
 		// Add an action listener to the lanugages drop down
 		languagesDropDown.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ev){
@@ -34,7 +34,7 @@ public class Interface extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		Interface frame = new Interface();
+		UserInterface frame = new UserInterface();
 		
 		frame.setSize(500, 500);
 		frame.setLocationRelativeTo(null);
