@@ -17,6 +17,8 @@ public class LineCounter {
 	
 	private String[] validExts;
 	
+	public File rootFolder = null;
+	
 	/**
 	 * Recursively loop through a directory and its subdirectories.
 	 * @param dir
@@ -92,6 +94,23 @@ public class LineCounter {
 
 		// If the file doesn't have an extension, we won't even bother checking it
 		return false;
+	}
+	
+	/**
+	 * Choose the root folder of a project
+	 * @return A file on the system somewhere, to be treated as the root folder of a project.
+	 * @throws NoFileChosenException If no file is chosen (i.e. the user hits the "cancel" button)
+	 */
+	public static File chooseRootFolder() throws NoFileChosenException{
+		// Create a new file chooser dialog
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		
+		// If the user hits the cancel button, throw an exception 
+		if(chooser.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION)
+			throw new NoFileChosenException();
+		
+		return chooser.getSelectedFile();
 	}
 	
 	public LineCounter(){
