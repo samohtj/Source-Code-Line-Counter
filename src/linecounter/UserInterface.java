@@ -3,8 +3,6 @@ package linecounter;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
@@ -15,10 +13,36 @@ public class UserInterface extends JFrame{
 	private JLabel rootFolderLabel 		= new JLabel("Root folder: None selected");
 	private JButton chooseRootButton 		= new JButton("Choose root folder");
 	private JButton runButton				= new JButton("Run counter");
+	private JCheckBox ignoreCommentsCheckbox = new JCheckBox("Ignore comment lines");
 	
-	private File rootDirectory = null;
+	private Settings settings = new Settings();
+	
+	// Create a project reader to look through the project files
+	ProjectReader projectReader = new ProjectReader(settings);
 	
 	public UserInterface(){
+		
+		final ProjectReader projectReader = new ProjectReader(settings);
+		
+		settings = Settings.load();
+		
+		ignoreCommentsCheckbox.setSelected(settings.ignoreComments);
+		languagesDropDown.setSelectedIndex(settings.selectedLanguageIndex);
+		rootFolderLabel.setText("Root folder: "+settings.rootFolder.getName());
+		
+		if(settings.rootFolder==null){
+			try {
+				projectReader.chooseRootFolder();
+			} catch (NoFileChosenException e) {
+				// TODO Auto-generated catch block
+				System.exit(0);
+			}
+		}
+		
+		//
+		//	ACTION LISTENERS
+		//
+		
 		// Add an action listener to the languages drop down
 		languagesDropDown.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ev){
@@ -33,8 +57,8 @@ public class UserInterface extends JFrame{
 		chooseRootButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ev){
 				try {
-					rootDirectory = LineCounter.chooseRootFolder();
-					rootFolderLabel.setText("Root folder: "+rootDirectory.getName());
+					projectReader.chooseRootFolder();
+					rootFolderLabel.setText("Root folder: "+projectReader.rootFolder.getName());
 				} catch (NoFileChosenException e) {
 					
 				}
@@ -47,6 +71,21 @@ public class UserInterface extends JFrame{
 				// TODO Make this do stuff
 			}
 		});
+		
+		// Add a listener to this JFrame object that will save the settings on exit
+		addWindowListener(new java.awt.event.WindowAdapter(){
+			public void windowClosing(java.awt.event.WindowEvent ev){
+				Settings newSettings = new Settings(ignoreCommentsCheckbox.isSelected(), 
+						languagesDropDown.getSelectedIndex(), projectReader.rootFolder);
+				
+				Settings.save(newSettings);
+				System.exit(0);
+			}
+		});
+		
+		//
+		//	ORGANIZATION
+		//
 		
 		// Create panels to store the two different selection options (project folder and language)
 		JPanel langSelectionPanel = new JPanel();
@@ -78,7 +117,7 @@ public class UserInterface extends JFrame{
 		
 		frame.setSize(800, 500);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setVisible(true);
 
 	}

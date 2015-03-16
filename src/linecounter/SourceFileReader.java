@@ -30,8 +30,15 @@ public class SourceFileReader {
 		this.commentChars = commentChars;
 	}
 	
-	public void numberOfLines(boolean ignoreComments)
+	public SourceFileReader(File file, int languageIndex){
+		this.theFile = file;
+		this.commentChars = LanguagesList.commentCharacters[languageIndex];
+	}
+	
+	public long numberOfLines(boolean ignoreComments)
 	{	
+		long totalLines = 0;
+		
 		// Try to read the total number of lines in the file
 		try {
 			// Create a LineNumberReader object and give it the file
@@ -63,6 +70,8 @@ public class SourceFileReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return totalLines;
 	}
 	
 	public boolean detectCommentLine(String line){

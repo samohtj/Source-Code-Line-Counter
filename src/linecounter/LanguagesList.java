@@ -6,6 +6,15 @@ package linecounter;
  *
  */
 public class LanguagesList {
+	
+	public static final int C 			= 0;
+	public static final int C_PLUS_PLUS 	= 1;
+	public static final int C_SHARP 		= 2;
+	public static final int JAVA 			= 3;
+	public static final int PHP			= 4;
+	public static final int PYTHON		= 5;
+	public static final int ROBOT_C		= 6;
+	
 	public static String[] availableLangs = {
 			"C", 
 			"C++", 

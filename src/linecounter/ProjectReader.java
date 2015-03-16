@@ -4,27 +4,30 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.util.Scanner;
 
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
-public class LineCounter {
+public class ProjectReader {
 
+	@SuppressWarnings ("unused")
 	private long numLines = 0;
+	@SuppressWarnings("unused")
 	private long numFiles = 0;
+	@SuppressWarnings("unused")
 	private long numFolders = 0;
 	
-	private String[] validExts;
-	
+	// Major settings; root folder, selected language, ignore comments y/n
 	public File rootFolder = null;
+	private int languageIndex;
+	private boolean ignoreComments;
 	
 	/**
-	 * Recursively loop through a directory and its subdirectories.
+	 * Recursively loop through a directory and its subdirectories, and run a line counter on each file.
 	 * @param dir
 	 * @return
 	 */
-	private void loopDir(File dir){
+	private void recursiveDirectoryCheck(File dir){
 		// Create a an array of files with all the contents of this directory
 		// including files and directories
 		File[] files = dir.listFiles();
@@ -34,17 +37,21 @@ public class LineCounter {
 			return;
 		
 		// Loop through each file and directory in this folder
-		for(File file: files){
+		for(File file: files){			
 			// If the current file is a directory, check it.
 			if(file.isDirectory()){
-				loopDir(file);
-				numFolders++;
+				recursiveDirectoryCheck(file);
+				numFolders++;		// Increment the number of folders read
 			}
 			// If the current file is a file, increment the number of lines by 1
 			// and add the number of lines in that file to the total
 			else if(isSourceCodeFile(file)){
+				// Increment the number of files read
 				numFiles++;
-				numLines += lineCount(file);
+								
+				// Create a source file reader for the file, and add its line count to the total count
+				SourceFileReader reader =  new SourceFileReader(file, languageIndex);
+				numLines += reader.numberOfLines(ignoreComments);
 			}
 		}
 	}
@@ -54,7 +61,7 @@ public class LineCounter {
 	 * @param file
 	 * @return
 	 */
-	public long lineCount(File file){
+	public long linesInFile(File file){
 		long totalLines = 0;
 		
 		// Try to read the total number of lines in the file
@@ -86,7 +93,7 @@ public class LineCounter {
 		if(bits.length>1){
 			// Loop through the list of valid extensions given to us by the user, and see if the
 			// extension of this file is on the list
-			for(String ext: validExts){
+			for(String ext: LanguagesList.availableExtensions[languageIndex]){
 				if(ext.equals(bits[bits.length-1]))
 					return true;
 			}
@@ -101,7 +108,7 @@ public class LineCounter {
 	 * @return A file on the system somewhere, to be treated as the root folder of a project.
 	 * @throws NoFileChosenException If no file is chosen (i.e. the user hits the "cancel" button)
 	 */
-	public static File chooseRootFolder() throws NoFileChosenException{
+	public void chooseRootFolder() throws NoFileChosenException{
 		// Create a new file chooser dialog
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -110,40 +117,35 @@ public class LineCounter {
 		if(chooser.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION)
 			throw new NoFileChosenException();
 		
-		return chooser.getSelectedFile();
+		this.rootFolder = chooser.getSelectedFile();
 	}
 	
-	public LineCounter(){
-		JFrame frame = new JFrame();
+	public ProjectReader(File rootFolder, int languageIndex, boolean ignoreComments) throws NoFileChosenException{
+		this.languageIndex = languageIndex;
+		this.ignoreComments = ignoreComments;
 		
-		// Show a message saying to choose a root directory
-		JOptionPane.showMessageDialog(frame, "Choose a root directory.");
-		
-		// Create a file chooser to get the selected folder to run on
-		JFileChooser chooser = new JFileChooser();
-		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int val = chooser.showOpenDialog(null);
-		
-		// If the chooser returned a file, run the program on it
-		if(val==JFileChooser.APPROVE_OPTION){
-			// Get the file extensions that we want to check for
-			String exts = JOptionPane
-					.showInputDialog(frame, "Enter the extensions you would like to check for, separated by commas:")
-					.replaceAll("\\s", "");
-			validExts = exts.split(",");	
+		if(rootFolder==null){
+			Scanner in = new Scanner("settings.dat");
 			
-			// Start by checking the directory given
-			loopDir(chooser.getSelectedFile());
-
-			// Print out the results
-			JOptionPane.showMessageDialog(frame, "Folder contained "+numFiles+" files, "+numFolders+" directories\n"
-					+numLines+" total lines of code.");
+			if(in.hasNext()){
+				this.rootFolder = new File(in.nextLine());
+			}else{
+				in.close();
+				throw new NoFileChosenException();
+			}
+			
+			in.close();
 		}
 		
 	}
 	
+	public ProjectReader(Settings settings){
+		this.ignoreComments = settings.ignoreComments;
+		this.languageIndex = settings.selectedLanguageIndex;
+		this.rootFolder = settings.rootFolder;
+	}
+	
 	public static void main(String[] args){
-		@SuppressWarnings("unused")
-		LineCounter counter = new LineCounter();
+		
 	}
 }
