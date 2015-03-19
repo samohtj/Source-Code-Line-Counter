@@ -1,26 +1,44 @@
 package linecounter;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.LineNumberReader;
-import java.util.Scanner;
-
 import javax.swing.JFileChooser;
 
 public class ProjectReader {
 
-	@SuppressWarnings ("unused")
-	private long numLines = 0;
-	@SuppressWarnings("unused")
-	private long numFiles = 0;
-	@SuppressWarnings("unused")
-	private long numFolders = 0;
+	/*
+	 * Store the overall number of lines, files, and folders for the whole project
+	 */
+	public long numFiles = 0;
+	public long numFolders = 0;
+	
+	private long totalLines 	= 0;
+	private long commentLines 	= 0;
 	
 	// Major settings; root folder, selected language, ignore comments y/n
 	public File rootFolder = null;
 	private int languageIndex;
 	private boolean ignoreComments;
+	
+	/*
+	 * Getters for the various line counts
+	 */
+	public long totalLines(){return totalLines;}
+	public long commentLines(){return commentLines;}
+	
+	/**
+	 * Run the file checker on the set root folder.
+	 * @param ignoreComments
+	 */
+	public void run(boolean ignoreComments){
+		// Make sure everything goes back to 0!
+		totalLines 		= 0;
+		commentLines 	= 0;
+		numFiles 		= 0;
+		numFolders 		= 0;
+		
+		this.ignoreComments = ignoreComments;
+		recursiveDirectoryCheck(rootFolder);
+	}
 	
 	/**
 	 * Recursively loop through a directory and its subdirectories, and run a line counter on each file.
@@ -50,36 +68,13 @@ public class ProjectReader {
 				numFiles++;
 								
 				// Create a source file reader for the file, and add its line count to the total count
-				SourceFileReader reader =  new SourceFileReader(file, languageIndex);
-				numLines += reader.numberOfLines(ignoreComments);
+				SourceFileReader reader =  new SourceFileReader(file, languageIndex, ignoreComments);
+				totalLines += reader.totalLines;
+				commentLines += reader.commentLines;
 			}
 		}
 	}
-	
-	/**
-	 * Count the number of lines in a file
-	 * @param file
-	 * @return
-	 */
-	public long linesInFile(File file){
-		long totalLines = 0;
-		
-		// Try to read the total number of lines in the file
-		try {
-			// Create a LineNumberReader object and give it the file
-			LineNumberReader reader = new LineNumberReader(new FileReader(file));
-			// Skip to the end of the file
-			reader.skip(Long.MAX_VALUE);
-			// Read the line number at our position
-			totalLines = reader.getLineNumber();
-			// Close the reader!
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return totalLines;
-	}
-	
+
 	/**
 	 * Determine if a given file is a programming source code file.
 	 * @param file
@@ -104,7 +99,7 @@ public class ProjectReader {
 	}
 	
 	/**
-	 * Choose the root folder of a project
+	 * Choose the root folder of a project using a JFileChooser dialog.
 	 * @return A file on the system somewhere, to be treated as the root folder of a project.
 	 * @throws NoFileChosenException If no file is chosen (i.e. the user hits the "cancel" button)
 	 */
@@ -120,25 +115,18 @@ public class ProjectReader {
 		this.rootFolder = chooser.getSelectedFile();
 	}
 	
-	public ProjectReader(File rootFolder, int languageIndex, boolean ignoreComments) throws NoFileChosenException{
+	/**
+	 * Set the language index for this project.
+	 * @param languageIndex
+	 */
+	public void setLanguage(int languageIndex){
 		this.languageIndex = languageIndex;
-		this.ignoreComments = ignoreComments;
-		
-		if(rootFolder==null){
-			Scanner in = new Scanner("settings.dat");
-			
-			if(in.hasNext()){
-				this.rootFolder = new File(in.nextLine());
-			}else{
-				in.close();
-				throw new NoFileChosenException();
-			}
-			
-			in.close();
-		}
-		
 	}
 	
+	/**
+	 * Create a new ProjectReader object with the given settings.
+	 * @param settings
+	 */
 	public ProjectReader(Settings settings){
 		this.ignoreComments = settings.ignoreComments;
 		this.languageIndex = settings.selectedLanguageIndex;
