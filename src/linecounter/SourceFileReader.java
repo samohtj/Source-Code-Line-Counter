@@ -30,8 +30,7 @@ public class SourceFileReader {
 		numberOfLines(ignoreComments);
 	}
 	
-	public void numberOfLines(boolean ignoreComments)
-	{
+	public void numberOfLines(boolean ignoreComments){
 		
 		// Try to read the total number of lines in the file
 		try {

@@ -79,8 +79,8 @@ public class UserInterface extends JFrame{
 				// Run the program, and update the results labels appropriately
 				projectReader.run(ignoreCommentsCheckbox.isSelected());
 				numLinesLabel.setText("Total lines: "+projectReader.totalLines());
-				numFilesLabel.setText("Total files searched: "+projectReader.numFiles);
-				numFoldersLabel.setText("Total folders searched: "+projectReader.numFolders);
+				numFilesLabel.setText("Total files searched: "+projectReader.numFiles());
+				numFoldersLabel.setText("Total folders searched: "+projectReader.numFolders());
 				
 				// Only update these labels if the ignoreComments box is checked
 				// Otherwise, leave them blank
