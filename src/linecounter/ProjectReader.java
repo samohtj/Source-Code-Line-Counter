@@ -4,8 +4,8 @@ import java.io.File;
 import javax.swing.JFileChooser;
 
 /**
- * ProjectReader will process any given folder, and measure the total number of lines, files, folders, and comment lines
- * in all the contained source code.
+ * ProjectReader will take a given folder, search through it, and use a SourceFileReader to process
+ * each file found in the project.
  * @author Jonathan Thomas
  *
  */
@@ -33,11 +33,11 @@ public class ProjectReader {
     public long numFolders() {return numFolders;}
 
     /**
-     * Run the file checker on the set root folder.
+     * Run the program on the set root folder.
      * @param ignoreComments
      */
     public void run(boolean ignoreComments) {
-        // Make sure everything goes back to 0!
+        // Reset counters before running the program!
         totalLines      = 0;
         commentLines    = 0;
         numFiles        = 0;
@@ -49,29 +49,24 @@ public class ProjectReader {
 
     /**
      * Recursively loop through a directory and its subdirectories, and run a line counter on each file.
-     * @param dir
-     * @return
+     * @param dir The directory to run on.
      */
     private void recursiveDirectoryCheck(File dir) {
         // Create a an array of files with all the contents of this directory
-        // including files and directories
         File[] files = dir.listFiles();
 
         // If no files are found in this directory, end the function
         if(files==null)
             return;
 
-        // Loop through each file and directory in this folder
         for(File file: files) {
-            // If the current file is a directory, check it.
+            // If the current file is a directory, perform this same process again
             if(file.isDirectory()) {
                 recursiveDirectoryCheck(file);
-                numFolders++;       // Increment the number of folders read
+                numFolders++;
             }
-            // If the current file is a file, increment the number of lines by 1
-            // and add the number of lines in that file to the total
+            // Ignore files that do not contain source code
             else if(isSourceCodeFile(file)) {
-                // Increment the number of files read
                 numFiles++;
 
                 // Create a source file reader for the file, and add its line count to the total count
@@ -93,15 +88,12 @@ public class ProjectReader {
 
         // If the file even has an extension, check to see if it's valid
         if(bits.length>1) {
-            // Loop through the list of valid extensions given to us by the user, and see if the
-            // extension of this file is on the list
             for(String ext: LanguagesList.availableExtensions[languageIndex]) {
                 if(ext.equals(bits[bits.length-1]))
                     return true;
             }
         }
-
-        // If the file doesn't have an extension, we won't even bother checking it
+        
         return false;
     }
 

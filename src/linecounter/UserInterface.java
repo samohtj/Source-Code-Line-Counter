@@ -8,8 +8,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 /**
- *
- *
+ * Displays a graphical user interface to control the application.
  */
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame{
@@ -41,7 +40,7 @@ public class UserInterface extends JFrame{
         final ProjectReader projectReader = new ProjectReader(settings);
 
         ignoreCommentsCheckbox.setSelected(settings.ignoreComments);
-        languagesDropDown.setSelectedIndex(settings.selectedLanguageIndex);
+        languagesDropDown.setSelectedIndex(settings.selectedLanguage.index);
         rootFolderLabel.setText("Root folder: "+settings.rootFolder.getName());
 
         if(settings.rootFolder==null){
