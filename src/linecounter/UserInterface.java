@@ -96,7 +96,7 @@ public class UserInterface extends JFrame{
             public void windowClosing(java.awt.event.WindowEvent ev){
                 // Create a new Settings object with all the current settings loaded
                 Settings newSettings = new Settings(ignoreCommentsCheckbox.isSelected(),
-                        languagesDropDown.getSelectedIndex(), projectReader.rootFolder);
+                        projectReader.settings.selectedLanguage, projectReader.rootFolder);
 
                 Settings.save(newSettings);    // Serialize the settings
                 System.exit(0);                // Exit the program

@@ -21,8 +21,10 @@ public class ProjectReader {
     private long commentLines   = 0;
 
     public File rootFolder = null;
-    private Lanugage language;
+    private Language language;
     private boolean ignoreComments;
+    
+    public Settings settings;
 
     /*
      * Getters for the various line counts
@@ -70,7 +72,7 @@ public class ProjectReader {
                 numFiles++;
 
                 // Create a source file reader for the file, and add its line count to the total count
-                SourceFileReader reader =  new SourceFileReader(file, languageIndex, ignoreComments);
+                SourceFileReader reader =  new SourceFileReader(file, language, ignoreComments);
                 totalLines += reader.totalLines;
                 commentLines += reader.commentLines;
             }
@@ -88,7 +90,7 @@ public class ProjectReader {
 
         // If the file even has an extension, check to see if it's valid
         if(bits.length>1) {
-            for(String ext: LanguagesList.availableExtensions[languageIndex]) {
+            for(String ext: settings.selectedLanguage.extensions) {
                 if(ext.equals(bits[bits.length-1]))
                     return true;
             }
@@ -119,7 +121,8 @@ public class ProjectReader {
      * @param languageIndex
      */
     public void setLanguage(int languageIndex) {
-        this.languageIndex = languageIndex;
+        settings.selectLanguage(languageIndex);
+        this.language = settings.selectedLanguage;
     }
 
     /**
@@ -127,6 +130,7 @@ public class ProjectReader {
      * @param settings
      */
     public ProjectReader(Settings settings) {
+    	this.settings = settings;
         this.ignoreComments = settings.ignoreComments;
         this.language = settings.selectedLanguage;
         this.rootFolder = settings.rootFolder;

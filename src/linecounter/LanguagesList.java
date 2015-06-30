@@ -1,11 +1,43 @@
 package linecounter;
 
+import java.io.File;
+import java.util.ArrayList;
+
 /**
  * This class simply stores a cataogue of available languages, their file extensions, and their comment characters
  * @author Jonathan Thomas
  *
  */
 public class LanguagesList {
+
+    private ArrayList<Language> list = new ArrayList<Language>();
+    
+    public Language get(int index) {
+    	// If the index asked for is out of bounds, default to Java
+    	if(index > list.size() - 1)
+    		return new Language();
+    	
+        return list.get(index);
+    }
+    
+    public void load(File file) {
+    	
+    }
+    
+    public LanguagesList(File file) {
+    	load(file);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public static final int C           = 0;
     public static final int C_PLUS_PLUS	= 1;

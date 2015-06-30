@@ -13,11 +13,19 @@ public class Settings implements Serializable{
 
     private static final long serialVersionUID = -6952939008177887335L;
 
+    private static final String LANGUAGES_FILE_NAME = "languages.xml";
+    private static final String SETTINGS_FILE_NAME 	= "settings.dat";
+    
     public boolean ignoreComments;      // Whether or not to ignore comments when searching files
     public Language selectedLanguage;   // The index of the currently selected language
     public File rootFolder;             // The root folder currently selected
+    
+    private LanguagesList availableLangs = new LanguagesList(new File(LANGUAGES_FILE_NAME));
+    
+    public void selectLanguage(int index) {
+    	selectedLanguage = availableLangs.get(index);
+    }
 
-    private static final String SETTINGS_FILE_NAME = "settings.dat";
 
     /**
      * Save a Settings object to a file called settings.dat
@@ -66,7 +74,7 @@ public class Settings implements Serializable{
     }
 
     public Settings(){
-        this(true, 0, new File(""));
+        this(true, new Language(), new File(""));
     }
 
     public Settings(boolean ignoreComments, Language selectedLanguage, File rootFolder){
@@ -74,4 +82,9 @@ public class Settings implements Serializable{
         this.selectedLanguage = selectedLanguage;
         this.rootFolder = rootFolder;
     }
+
+	public static Language selectedLang() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
