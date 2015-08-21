@@ -18,7 +18,7 @@ public class Settings implements Serializable{
     private static final String SETTINGS_FILE_NAME 	= "settings.dat";
     private static final String LANGUAGES_FILE_NAME = "languages.xml";
     
-    private transient LanguagesList availableLangs = new LanguagesList();
+    public transient LanguagesList availableLangs = new LanguagesList();
     
     // Make sure that these all have default values, or you might have trouble later.
     public boolean ignoreComments = true;

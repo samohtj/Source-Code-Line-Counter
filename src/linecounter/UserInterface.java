@@ -13,12 +13,12 @@ import javax.swing.border.TitledBorder;
 @SuppressWarnings("serial")
 public class UserInterface extends JFrame{
 
-    private JComboBox<?> languagesDropDown  = new JComboBox<Object>(LanguagesList.availableLangs);
+    private JComboBox<?> languagesDropDown;
 
-    private JLabel rootFolderLabel          = new JLabel("Root folder: None selected");
-    private JButton chooseRootButton        = new JButton("Choose root folder");
+    private JLabel rootFolderLabel		= new JLabel("Root folder: None selected");
+    private JButton chooseRootButton    = new JButton("Choose root folder");
 
-    private JButton runButton               = new JButton("Run counter");
+    private JButton runButton           = new JButton("Run counter");
     private JCheckBox ignoreCommentsCheckbox = new JCheckBox("Include comments and whitespace");
 
     // Results labels
@@ -38,6 +38,7 @@ public class UserInterface extends JFrame{
         final ProjectReader projectReader = new ProjectReader(settings);
 
         ignoreCommentsCheckbox.setSelected(settings.ignoreComments);
+        languagesDropDown  = new JComboBox<Object>(settings.availableLangs.availableLangs());
         languagesDropDown.setSelectedIndex(settings.selectedLangIndex);
 
         if(settings.rootFolder==null){
