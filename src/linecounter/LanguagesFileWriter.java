@@ -15,20 +15,27 @@ import org.jdom2.output.XMLOutputter;
 
 public class LanguagesFileWriter {
 	
+	/**
+	 * This method will compose an XML document from a given LanguagesList object. It will format
+	 * the document according to this template:
+	 * <pre>
+	 * {@code
+	 * <languages>
+	 *     <language name="Java">
+	 *         <extensions>
+	 *             <extension text="java"/>
+	 *         </extensions>
+	 *         <lineCommentChar text="//"/
+	 *         <blockCommentChars opening="/*" closing="* /"/>
+	 *     </language>
+	 * </languages>
+	 * }
+	 * </pre>
+	 * @param list 
+	 * @return A fully formatted Document object
+	 */
 	private Document composeXML(LanguagesList list) {
 		Document doc = new Document();
-		
-		/*
-		 * 	<languages>
-		 * 		<language name="Java">
-		 * 			<extensions>
-		 * 				<extension text="java"/>
-		 * 			</extensions>
-		 * 			<lineCommentChar text="//"/
-		 * 			<blockCommentChars opening="/*" closing="* /"/>
-		 * 		</language>
-		 * 	</languages>
-		 */
 		
 		// The root element is the base element for the whole XML file, the one that encloses everything
 		Element root = new Element("languages");
