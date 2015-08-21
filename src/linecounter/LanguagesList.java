@@ -1,39 +1,21 @@
 package linecounter;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
- * This class simply stores a cataogue of available languages, their file extensions, and their comment characters
+ * This class simply stores a catalog of available languages in the form of an ArrayList.
  * @author Jonathan Thomas
  *
  */
-public class LanguagesList{
-	
-	private ArrayList<Language> list = new ArrayList<Language>();
-    
-    public Language get(int index) {
+public class LanguagesList extends ArrayList<Language>{
+	private static final long serialVersionUID = 8102198895664199057L;
+
+	public Language get(int index) {
     	// If the index asked for is out of bounds, default to Java
-    	if(index > list.size() - 1)
+    	if(index > size() - 1)
     		return new Language();
     	
-        return list.get(index);
-    }
-    
-    public void load(File file) {
-    	
-    }
-    
-    public LanguagesList(File file) {
-    	load(file);
-    }
-    
-    public void add(Language lang) {
-    	list.add(lang);
-    }
-
-    public LanguagesList() {
-    	//list.add(new Language("Java", new String[]{"java"}, new String[]{"//"}, new String[]{"/*", "*/"}, 3));
+        return get(index);
     }
     
     /**
@@ -41,7 +23,7 @@ public class LanguagesList{
      * @return
      */
     public ArrayList<Language> allLangs() {
-    	return new ArrayList<Language>(list);
+    	return new ArrayList<Language>(this);
     }
 
     public String[] availableLangs() {
@@ -49,15 +31,9 @@ public class LanguagesList{
     	String[] langs = new String[size()];
     	
     	for(int i = 0; i < size(); i++) {
-    		langs[i] = list.get(i).name;
+    		langs[i] = get(i).name;
     	}
     	
     	return langs;
     }
-
-
-
-	public int size() {
-		return list.size();
-	}
 }
