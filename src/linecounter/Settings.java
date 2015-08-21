@@ -13,18 +13,53 @@ public class Settings implements Serializable{
 
     private static final long serialVersionUID = -6952939008177887335L;
 
-    private static final String LANGUAGES_FILE_NAME = "languages.xml";
     private static final String SETTINGS_FILE_NAME 	= "settings.dat";
+    private static final String LANGUAGES_FILE_NAME = "languages.xml";
     
-    public boolean ignoreComments;      // Whether or not to ignore comments when searching files
-    public Language selectedLanguage;   // The index of the currently selected language
-    public File rootFolder;             // The root folder currently selected
+    private LanguagesList availableLangs = new LanguagesList();
     
-    private LanguagesList availableLangs = new LanguagesList(new File(LANGUAGES_FILE_NAME));
-    
-    public void selectLanguage(int index) {
-    	selectedLanguage = availableLangs.get(index);
+    // Make sure that these all have default values, or you might have trouble later.
+    public boolean ignoreComments = true;
+    public int selectedLangIndex = 0;
+    public File rootFolder = new File("./");
+
+    /**
+     * Create a new Settings object with the default settings.
+     */
+    public Settings(){
+        this(true, 0, new File(""));
     }
+
+    /**
+     * Create a new Settings object with the given settings.
+     * @param ignoreComments
+     * @param selectedLanguageIndex
+     * @param rootFolder
+     */
+    public Settings(boolean ignoreComments, int selectedLanguageIndex, File rootFolder){
+        this.ignoreComments = ignoreComments;
+        this.selectedLangIndex = selectedLanguageIndex;
+        this.rootFolder = rootFolder;
+    }
+    
+    /**
+     * Set the selected language.
+     * @param index
+     */
+    public void selectLanguage(int index) {
+    	selectedLangIndex = index;
+    }
+    
+    /**
+     * If there is no selected language
+     * @return The currently selected language.
+     */
+	public Language selectedLang() {
+		if(availableLangs.size() > 0)
+			return availableLangs.get(selectedLangIndex);
+		else
+			return new Language();
+	}
 
 
     /**
@@ -37,6 +72,10 @@ public class Settings implements Serializable{
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(SETTINGS_FILE_NAME));
             out.writeObject(settings);
             out.close();
+            
+            // Write all the available languages to an XML file
+            LanguagesFileWriter writer = new LanguagesFileWriter();
+            writer.writeList(settings.availableLangs, new File(LANGUAGES_FILE_NAME));
         }catch(FileNotFoundException ex){
             System.out.println("Could not find file "+SETTINGS_FILE_NAME);
         }catch(IOException ex){
@@ -52,11 +91,17 @@ public class Settings implements Serializable{
     public static Settings load(){
         Settings settings = null;
 
-        // Try to load in the Facebook object
+        // Try to load in the Settings object
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(SETTINGS_FILE_NAME));
             settings = (Settings) in.readObject();
             in.close();
+            
+            System.out.println(settings.toString());
+            
+            // Read the available languages from an XML file
+            LanguagesFileReader reader = new LanguagesFileReader();
+            settings.availableLangs = reader.readList(new File(LANGUAGES_FILE_NAME));
         } catch (FileNotFoundException ex) {
             System.out.println("Could not find file "+SETTINGS_FILE_NAME);
         }catch(IOException ex){
@@ -72,19 +117,11 @@ public class Settings implements Serializable{
 
         return settings;
     }
-
-    public Settings(){
-        this(true, new Language(), new File(""));
-    }
-
-    public Settings(boolean ignoreComments, Language selectedLanguage, File rootFolder){
-        this.ignoreComments = ignoreComments;
-        this.selectedLanguage = selectedLanguage;
-        this.rootFolder = rootFolder;
-    }
-
-	public static Language selectedLang() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public String toString() {
+		return "SETTINGS\n--------"
+				+ "\nIgnore comments: " + ignoreComments
+				+ "\nSelected language: " + selectedLangIndex
+				+ "\nRoot folder: " + rootFolder.toString();
 	}
 }

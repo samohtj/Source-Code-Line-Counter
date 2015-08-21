@@ -27,8 +27,24 @@ public class LanguagesList {
     public LanguagesList(File file) {
     	load(file);
     }
+    
+    public void add(Language lang) {
+    	list.add(lang);
+    }
 
-
+    public LanguagesList() {
+    	//list.add(new Language("Java", new String[]{"java"}, new String[]{"//"}, new String[]{"/*", "*/"}, 3));
+    }
+    
+    /**
+     * Return a new ArrayList containing all the Language objects stored in this list.
+     * @return
+     */
+    public ArrayList<Language> allLangs() {
+    	for(Language lang: list)
+    		System.out.println(lang.index+ ". " + lang.toString());
+    	return new ArrayList<Language>(list);
+    }
 
 
 
@@ -78,4 +94,8 @@ public class LanguagesList {
     /* RobotC */{"//", "/*", "*/"}
 
     };
+
+	public int size() {
+		return list.size();
+	}
 }
