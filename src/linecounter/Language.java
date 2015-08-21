@@ -22,4 +22,8 @@ public class Language {
     public Language() {
     	this("Java", new String[]{"java"}, new String[]{"//"}, new String[]{"/*", "*/"}, 3);    	
     }
+    
+    public String toString() {
+    	return name + "\nAvailable exts: " + extensions[0] + "\nComment char: " + lineCommentChars[0];
+    }
 }

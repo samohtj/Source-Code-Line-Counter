@@ -13,6 +13,12 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+/**
+ * LanguagesFileWriter is used to convert a LanguagesList object to XML format, and then write that
+ * data to an XML file.
+ * @author Jonathan
+ *
+ */
 public class LanguagesFileWriter {
 	
 	/**
@@ -21,7 +27,7 @@ public class LanguagesFileWriter {
 	 * <pre>
 	 * {@code
 	 * <languages>
-	 *     <language name="Java">
+	 *     <language name="Java" index=3>
 	 *         <extensions>
 	 *             <extension text="java"/>
 	 *         </extensions>
@@ -41,28 +47,48 @@ public class LanguagesFileWriter {
 		Element root = new Element("languages");
 		doc.setRootElement(root);
 		
-		Element languageElement = new Element("language");
-		Element extensionsElement = new Element("extensions");
-		Element extensionElement = new Element("extension");
-		Element lineComElement = new Element("lineCommentChar");
-		Element blockComElement = new Element("blockCommentChars");
-		
-		languageElement.setAttribute("name", "Java");
-		extensionElement.setAttribute("text", "java");
-		lineComElement.setAttribute("text", "//");
-		blockComElement.setAttribute("opening", "/*");
-		blockComElement.setAttribute("closing", "*/");
-		
-		extensionsElement.addContent(extensionElement);
-		languageElement.addContent(extensionsElement);
-		languageElement.addContent(lineComElement);
-		languageElement.addContent(blockComElement);
-		
-		root.addContent(languageElement);
+		for(Language language: list.allLangs()) {
+			
+			// Create a new language element, and add the name and index
+			Element languageElement = new Element("language");
+			languageElement.setAttribute("name", language.name);
+			languageElement.setAttribute("index", Integer.toString(language.index));
+			
+			// Create an extensions element to hold all the available file extensions, and then
+			// create extension elements for each available file extension in the language.
+			Element extensionsElement = new Element("extensions");
+			for(String ext: language.extensions) {
+				Element extensionElement = new Element("extension");
+				extensionElement.setAttribute("text", ext);
+				extensionsElement.addContent(extensionElement);
+			}
+			languageElement.addContent(extensionsElement);
+			
+			// Create a lineCommentChars element for each avaliable line comment character string.
+			for(String text: language.lineCommentChars) {
+				Element lineComElement = new Element("lineCommentChar");
+				lineComElement.setAttribute("text", text);
+				languageElement.addContent(lineComElement);
+			}
+			
+			// Create a blockCommentChars element to store opening and closing block comment characters.
+			Element blockComElement = new Element("blockCommentChars");
+			blockComElement.setAttribute("opening", language.blockCommentDelimiters[0]);
+			blockComElement.setAttribute("closing", language.blockCommentDelimiters[1]);
+			languageElement.addContent(blockComElement);
+			
+			// Add the newly populated language element to the root element.
+			root.addContent(languageElement);
+		}
 		
 		return doc;
 	}
 	
+	/**
+	 * Convert a given LanguagesList object to XML format, and write it to an XML file.
+	 * @param list
+	 * @param file
+	 */
 	public void writeList(LanguagesList list, File file) {
 		
 		Document doc = composeXML(list);

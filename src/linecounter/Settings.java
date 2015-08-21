@@ -13,14 +13,14 @@ public class Settings implements Serializable{
 
     private static final long serialVersionUID = -6952939008177887335L;
 
-    private static final String LANGUAGES_FILE_NAME = "languages.xml";
     private static final String SETTINGS_FILE_NAME 	= "settings.dat";
     
     public boolean ignoreComments;      // Whether or not to ignore comments when searching files
     public Language selectedLanguage;   // The index of the currently selected language
     public File rootFolder;             // The root folder currently selected
+    public String languagesFileName;	// File storing available programming languages
     
-    private LanguagesList availableLangs = new LanguagesList(new File(LANGUAGES_FILE_NAME));
+    private LanguagesList availableLangs;
     
     public void selectLanguage(int index) {
     	selectedLanguage = availableLangs.get(index);
@@ -37,6 +37,8 @@ public class Settings implements Serializable{
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(SETTINGS_FILE_NAME));
             out.writeObject(settings);
             out.close();
+            
+            // TODO Add language saving capabilities
         }catch(FileNotFoundException ex){
             System.out.println("Could not find file "+SETTINGS_FILE_NAME);
         }catch(IOException ex){
@@ -52,11 +54,13 @@ public class Settings implements Serializable{
     public static Settings load(){
         Settings settings = null;
 
-        // Try to load in the Facebook object
+        // Try to load in the Settings object
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(SETTINGS_FILE_NAME));
             settings = (Settings) in.readObject();
             in.close();
+            
+            // TODO Add language loading capabilities
         } catch (FileNotFoundException ex) {
             System.out.println("Could not find file "+SETTINGS_FILE_NAME);
         }catch(IOException ex){
