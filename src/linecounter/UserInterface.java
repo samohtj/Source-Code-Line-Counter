@@ -28,23 +28,22 @@ public class UserInterface extends JFrame{
 
     private JLabel commentLinesLabel = new JLabel();
 
-    private Settings settings = new Settings();
+    private Settings settings = Settings.load();
 
     // Create a project reader to look through the project files
     ProjectReader projectReader = new ProjectReader(settings);
 
     public UserInterface(){
 
-        settings = Settings.load();
-
         final ProjectReader projectReader = new ProjectReader(settings);
+        System.out.println("Settings for whole object: "+settings+"\nSettings for project reader: "+projectReader.settings);
 
         ignoreCommentsCheckbox.setSelected(settings.ignoreComments);
         languagesDropDown.setSelectedIndex(settings.selectedLangIndex);
 
         if(settings.rootFolder==null){
             try {
-                projectReader.chooseRootFolder();
+                settings.chooseRootFolder();
             } catch (NoFileChosenException e) {
                 System.exit(0);
             }
@@ -59,13 +58,8 @@ public class UserInterface extends JFrame{
         // LANGUAGES LIST DROPDOWN
         languagesDropDown.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ev){
-            	int selectedIndex = ((JComboBox<?>) ev.getSource()).getSelectedIndex();
-                
-            	// Set the project reader's language to the selected element of the dropdown
-                projectReader.setLanguage(selectedIndex);
-                
                 // Update the settings
-                settings.selectedLangIndex = selectedIndex;
+                settings.selectedLangIndex = ((JComboBox<?>) ev.getSource()).getSelectedIndex();
             }
         });
 
@@ -74,13 +68,11 @@ public class UserInterface extends JFrame{
             public void actionPerformed(ActionEvent ev){
                 try {
                     // Try to choose the root folder of the project
-                    projectReader.chooseRootFolder();
+                    settings.chooseRootFolder();
 
                     // Set the rootFolderLabel's text contents to the name of the root folder
-                    rootFolderLabel.setText("Root folder: "+projectReader.rootFolder.getName());
+                    rootFolderLabel.setText("Root folder: "+settings.rootFolder.getName());
                     
-                    // Update the settings
-                    settings.rootFolder = projectReader.rootFolder;
                 } catch (NoFileChosenException e) {}
             }
         });
@@ -111,12 +103,8 @@ public class UserInterface extends JFrame{
         // ON WINDOW CLOSE
         addWindowListener(new java.awt.event.WindowAdapter(){
             public void windowClosing(java.awt.event.WindowEvent ev){
-                // Create a new Settings object with all the current settings loaded
-                Settings newSettings = new Settings(ignoreCommentsCheckbox.isSelected(),
-                        projectReader.settings.selectedLangIndex, projectReader.rootFolder);
-
-                Settings.save(newSettings);    // Serialize the settings
-                System.exit(0);                // Exit the program
+                Settings.save(settings);	// Serialize the settings
+                System.exit(0);       		// Exit the program
             }
         });
 

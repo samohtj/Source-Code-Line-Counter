@@ -9,6 +9,8 @@ import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 import java.io.Serializable;
 
+import javax.swing.JFileChooser;
+
 public class Settings implements Serializable{
 
     private static final long serialVersionUID = -6952939008177887335L;
@@ -65,7 +67,23 @@ public class Settings implements Serializable{
 		else
 			return new Language();
 	}
+	
+	/**
+     * Choose the root folder of a project using a JFileChooser dialog.
+     * @return A file on the system somewhere, to be treated as the root folder of a project.
+     * @throws NoFileChosenException If no file is chosen (i.e. the user hits the "cancel" button)
+     */
+    public void chooseRootFolder() throws NoFileChosenException{
+        // Create a new file chooser dialog
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
+        // If the user hits the cancel button, throw an exception
+        if(chooser.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION)
+            throw new NoFileChosenException();
+
+        rootFolder = chooser.getSelectedFile();
+    }
 
     /**
      * Save a Settings object to a file called settings.dat
@@ -106,6 +124,7 @@ public class Settings implements Serializable{
             // Read the available languages from an XML file
             LanguagesFileReader reader = new LanguagesFileReader();
             settings.availableLangs = reader.readList(new File(LANGUAGES_FILE_NAME));
+            settings.availableLangs.allLangs();
             
         } catch (FileNotFoundException ex) {
             System.out.println("Could not find file "+SETTINGS_FILE_NAME);
@@ -126,10 +145,10 @@ public class Settings implements Serializable{
     /**
      * Generate a string from this object, for debugging purposes.
      */
-	public String toString() {
-		return "SETTINGS\n--------"
-				+ "\nIgnore comments: " + ignoreComments
-				+ "\nSelected language: " + selectedLangIndex
-				+ "\nRoot folder: " + rootFolder.toString();
-	}
+//	public String toString() {
+//		return "SETTINGS\n--------"
+//				+ "\nIgnore comments: " + ignoreComments
+//				+ "\nSelected language: " + selectedLangIndex
+//				+ "\nRoot folder: " + rootFolder.toString();
+//	}
 }
