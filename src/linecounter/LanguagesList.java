@@ -27,9 +27,13 @@ public class LanguagesList {
     public LanguagesList(File file) {
     	load(file);
     }
+    
+    public void add(Language lang) {
+    	list.add(lang);
+    }
 
     public LanguagesList() {
-    	list.add(new Language("Java", new String[]{"java"}, new String[]{"//"}, new String[]{"/*", "*/"}, 3));
+    	//list.add(new Language("Java", new String[]{"java"}, new String[]{"//"}, new String[]{"/*", "*/"}, 3));
     }
     
     /**
@@ -38,7 +42,7 @@ public class LanguagesList {
      */
     public ArrayList<Language> allLangs() {
     	for(Language lang: list)
-    		System.out.println("1. " + lang.toString());
+    		System.out.println(lang.index+ ". " + lang.toString());
     	return new ArrayList<Language>(list);
     }
 
