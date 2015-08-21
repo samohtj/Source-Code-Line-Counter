@@ -8,9 +8,9 @@ import java.util.ArrayList;
  * @author Jonathan Thomas
  *
  */
-public class LanguagesList {
-
-    private ArrayList<Language> list = new ArrayList<Language>();
+public class LanguagesList{
+	
+	private ArrayList<Language> list = new ArrayList<Language>();
     
     public Language get(int index) {
     	// If the index asked for is out of bounds, default to Java

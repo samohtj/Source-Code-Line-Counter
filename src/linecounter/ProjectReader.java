@@ -38,15 +38,14 @@ public class ProjectReader {
      * Run the program on the set root folder.
      * @param ignoreComments
      */
-    public void run(boolean ignoreComments) {
+    public void run() {
         // Reset counters before running the program!
         totalLines      = 0;
         commentLines    = 0;
         numFiles        = 0;
         numFolders      = 0;
 
-        this.ignoreComments = ignoreComments;
-        recursiveDirectoryCheck(rootFolder);
+        recursiveDirectoryCheck(settings.rootFolder);
     }
 
     /**
@@ -124,6 +123,14 @@ public class ProjectReader {
         settings.selectLanguage(languageIndex);
         this.language = settings.selectedLang();
     }
+    
+    /**
+     * Set whether to ignore comments or not.
+     * @param ignoreComments 
+     */
+    public void setIgnoreComments(boolean ignoreComments) {
+    	this.ignoreComments = ignoreComments;
+    }
 
     /**
      * Create a new ProjectReader object with the given settings.
@@ -133,6 +140,5 @@ public class ProjectReader {
     	this.settings = settings;
         this.ignoreComments = settings.ignoreComments;
         this.language = settings.selectedLang();
-        this.rootFolder = settings.rootFolder;
     }
 }

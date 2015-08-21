@@ -41,7 +41,6 @@ public class UserInterface extends JFrame{
 
         ignoreCommentsCheckbox.setSelected(settings.ignoreComments);
         languagesDropDown.setSelectedIndex(settings.selectedLangIndex);
-        rootFolderLabel.setText("Root folder: "+settings.rootFolder.getName());
 
         if(settings.rootFolder==null){
             try {
@@ -50,6 +49,8 @@ public class UserInterface extends JFrame{
                 System.exit(0);
             }
         }
+        
+        rootFolderLabel.setText("Root folder: "+settings.rootFolder.getName());
 
         //
         //    ACTION LISTENERS
@@ -58,8 +59,13 @@ public class UserInterface extends JFrame{
         // LANGUAGES LIST DROPDOWN
         languagesDropDown.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ev){
-                // Set the project reader's language to the selected element of the dropdown
-                projectReader.setLanguage(((JComboBox<?>) ev.getSource()).getSelectedIndex());
+            	int selectedIndex = ((JComboBox<?>) ev.getSource()).getSelectedIndex();
+                
+            	// Set the project reader's language to the selected element of the dropdown
+                projectReader.setLanguage(selectedIndex);
+                
+                // Update the settings
+                settings.selectedLangIndex = selectedIndex;
             }
         });
 
@@ -72,15 +78,26 @@ public class UserInterface extends JFrame{
 
                     // Set the rootFolderLabel's text contents to the name of the root folder
                     rootFolderLabel.setText("Root folder: "+projectReader.rootFolder.getName());
+                    
+                    // Update the settings
+                    settings.rootFolder = projectReader.rootFolder;
                 } catch (NoFileChosenException e) {}
             }
+        });
+        
+        // IGNORE COMMETNS CHECKBOX
+        ignoreCommentsCheckbox.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent ev) {
+        		// Update the settings
+        		settings.ignoreComments = ignoreCommentsCheckbox.isSelected();
+        	}
         });
 
         // RUN BUTTON
         runButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ev){
                 // Run the program, and update the results labels appropriately
-                projectReader.run(ignoreCommentsCheckbox.isSelected());
+                projectReader.run();
                 numLinesLabel.setText("Total lines: "+projectReader.totalLines());
                 numFilesLabel.setText("Total files searched: "+projectReader.numFiles());
                 numFoldersLabel.setText("Total folders searched: "+projectReader.numFolders());

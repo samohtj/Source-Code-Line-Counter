@@ -9,6 +9,13 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
+/**
+ * LanguagesFileReader will take a given XML file, parse its data, and generate a LanguagesList
+ * object from the file's contents. It makes use of the JDOM library. Check them out 
+ * <a href="http://jdom.org">here.</a>
+ * @author Jonathan Thomas
+ *
+ */
 public class LanguagesFileReader {
 	
 	/**

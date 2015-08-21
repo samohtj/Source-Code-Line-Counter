@@ -11,7 +11,8 @@ import org.jdom2.output.XMLOutputter;
 
 /**
  * LanguagesFileWriter is used to convert a LanguagesList object to XML format, and then write that
- * data to an XML file.
+ * data to an XML file. It makes use of the JDOM library. Check them out
+ * <a href="http://jdom.org">here.</a>
  * @author Jonathan
  *
  */

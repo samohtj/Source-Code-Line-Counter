@@ -16,12 +16,12 @@ public class Settings implements Serializable{
     private static final String SETTINGS_FILE_NAME 	= "settings.dat";
     private static final String LANGUAGES_FILE_NAME = "languages.xml";
     
-    private LanguagesList availableLangs = new LanguagesList();
+    private transient LanguagesList availableLangs = new LanguagesList();
     
     // Make sure that these all have default values, or you might have trouble later.
     public boolean ignoreComments = true;
     public int selectedLangIndex = 0;
-    public File rootFolder = new File("./");
+    public File rootFolder = null;
 
     /**
      * Create a new Settings object with the default settings.
@@ -47,11 +47,16 @@ public class Settings implements Serializable{
      * @param index
      */
     public void selectLanguage(int index) {
-    	selectedLangIndex = index;
+    	if(index > availableLangs.size() - 1)
+    		selectedLangIndex = availableLangs.size() - 1;
+    	else if(index < 0)
+    		selectedLangIndex = 0;
+    	else
+    		selectedLangIndex = index;
     }
     
     /**
-     * If there is no selected language
+     * Return the currently selected language. If there are no languages available, generate a new one.
      * @return The currently selected language.
      */
 	public Language selectedLang() {
@@ -76,6 +81,7 @@ public class Settings implements Serializable{
             // Write all the available languages to an XML file
             LanguagesFileWriter writer = new LanguagesFileWriter();
             writer.writeList(settings.availableLangs, new File(LANGUAGES_FILE_NAME));
+            
         }catch(FileNotFoundException ex){
             System.out.println("Could not find file "+SETTINGS_FILE_NAME);
         }catch(IOException ex){
@@ -97,11 +103,10 @@ public class Settings implements Serializable{
             settings = (Settings) in.readObject();
             in.close();
             
-            System.out.println(settings.toString());
-            
             // Read the available languages from an XML file
             LanguagesFileReader reader = new LanguagesFileReader();
             settings.availableLangs = reader.readList(new File(LANGUAGES_FILE_NAME));
+            
         } catch (FileNotFoundException ex) {
             System.out.println("Could not find file "+SETTINGS_FILE_NAME);
         }catch(IOException ex){
@@ -118,6 +123,9 @@ public class Settings implements Serializable{
         return settings;
     }
 	
+    /**
+     * Generate a string from this object, for debugging purposes.
+     */
 	public String toString() {
 		return "SETTINGS\n--------"
 				+ "\nIgnore comments: " + ignoreComments
