@@ -29,7 +29,7 @@ public class Settings implements Serializable{
      * Create a new Settings object with the default settings.
      */
     public Settings(){
-        this(true, 0, new File(""));
+        this(true, 0, null);
     }
 
     /**
