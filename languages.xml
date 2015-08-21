@@ -46,12 +46,11 @@
     <lineCommentChar text="#" />
     <blockCommentChars opening="/*" closing="*/" />
   </language>
-  </language>
-   <language name="Python" index="5">
+  <language name="Python" index="5">
     <extensions>
       <extension text="php" />
     </extensions>
     <lineCommentChar text="#" />
-    <blockCommentChars opening="\"\"\"" closing="\"\"\"" />
+    <blockCommentChars opening="&quot;&quot;&quot;" closing="&quot;&quot;&quot;" />
   </language>
 </languages>

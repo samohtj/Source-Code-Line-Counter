@@ -1,15 +1,11 @@
 package linecounter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.Text;
-import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
@@ -96,8 +92,6 @@ public class LanguagesFileWriter {
 		try {
 			XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
 			out.output(doc, new FileOutputStream(file));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
