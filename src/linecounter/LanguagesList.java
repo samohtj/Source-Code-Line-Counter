@@ -94,4 +94,8 @@ public class LanguagesList {
     /* RobotC */{"//", "/*", "*/"}
 
     };
+
+	public int size() {
+		return list.size();
+	}
 }

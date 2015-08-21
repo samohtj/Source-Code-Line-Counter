@@ -1,21 +1,22 @@
 package linecounter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
-import org.jdom2.Text;
 import org.jdom2.input.SAXBuilder;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 
 public class LanguagesFileReader {
 	
+	/**
+	 * Parse an XML document, and generate a LanguagesList from the data found inside.
+	 * <br>The template that this method reads can be found in {@code LangaugesFileWriter}.
+	 * @param doc
+	 * @return A full LanguagesList object.
+	 */
 	private LanguagesList parseXML(Document doc) {
 		LanguagesList list = new LanguagesList();
 		
@@ -61,6 +62,11 @@ public class LanguagesFileReader {
 		return list;
 	}
 	
+	/**
+	 * Parse an XML file, and generate a LanguagesList object from the data found inside.
+	 * @param file
+	 * @return
+	 */
 	public LanguagesList readList(File file) {
 		Document doc = new Document();
 		
