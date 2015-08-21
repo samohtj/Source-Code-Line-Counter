@@ -48,7 +48,7 @@
   </language>
   <language name="Python" index="5">
     <extensions>
-      <extension text="php" />
+      <extension text="py" />
     </extensions>
     <lineCommentChar text="#" />
     <blockCommentChars opening="&quot;&quot;&quot;" closing="&quot;&quot;&quot;" />

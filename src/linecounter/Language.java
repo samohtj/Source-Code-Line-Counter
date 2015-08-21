@@ -30,6 +30,7 @@ public class Language {
     public String toString() {
     	return name 
     			+ "\nAvailable exts: " + Arrays.toString(extensions) 
-    			+ "\nComment char: " + Arrays.toString(lineCommentChars);
+    			+ "\nComment char: " + Arrays.toString(lineCommentChars)
+    			+ "\nBlock: " + blockCommentDelimiters[0] + " " + blockCommentDelimiters[1];
     }
 }
