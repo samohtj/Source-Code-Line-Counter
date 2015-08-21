@@ -95,16 +95,15 @@ public class Settings implements Serializable{
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(SETTINGS_FILE_NAME));
             out.writeObject(settings);
             out.close();
-            
-            // Write all the available languages to an XML file
-            LanguagesFileWriter writer = new LanguagesFileWriter();
-            writer.writeList(settings.availableLangs, new File(LANGUAGES_FILE_NAME));
-            
         }catch(FileNotFoundException ex){
             System.out.println("Could not find file "+SETTINGS_FILE_NAME);
         }catch(IOException ex){
             System.out.println("There was a problem writing to the file.");
             ex.printStackTrace();
+        }finally {
+        	// Write all the available languages to an XML file
+            LanguagesFileWriter writer = new LanguagesFileWriter();
+            writer.writeList(settings.availableLangs, new File(LANGUAGES_FILE_NAME));
         }
     }
 
@@ -120,11 +119,6 @@ public class Settings implements Serializable{
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(SETTINGS_FILE_NAME));
             settings = (Settings) in.readObject();
             in.close();
-            
-            // Read the available languages from an XML file
-            LanguagesFileReader reader = new LanguagesFileReader();
-            settings.availableLangs = reader.readList(new File(LANGUAGES_FILE_NAME));
-            
         } catch (FileNotFoundException ex) {
             System.out.println("Could not find file "+SETTINGS_FILE_NAME);
         }catch(IOException ex){
@@ -136,6 +130,10 @@ public class Settings implements Serializable{
             // Make sure that if we couldn't load the object, that it doesn't remain null
             if(settings==null)
                 settings = new Settings();
+            
+            // Read the available languages from an XML file
+            LanguagesFileReader reader = new LanguagesFileReader();
+            settings.availableLangs = reader.readList(new File(LANGUAGES_FILE_NAME));
         }
 
         return settings;
