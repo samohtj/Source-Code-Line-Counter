@@ -28,7 +28,9 @@ public class LanguagesList {
     	load(file);
     }
 
-
+    public LanguagesList() {
+    	
+    }
 
 
 

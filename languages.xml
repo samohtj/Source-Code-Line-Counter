@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <languages>
-  <language>
-    <name>Java</name>
+  <language name="Java">
+    <extensions>
+      <extension text="java" />
+    </extensions>
+    <lineCommentChar text="//" />
+    <blockCommentChars opening="/*" closing="*/" />
   </language>
 </languages>

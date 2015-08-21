@@ -15,32 +15,57 @@ import org.jdom2.output.XMLOutputter;
 
 public class LanguagesFileWriter {
 	
-	private void writeXML() {
-		
+	private Document composeXML(LanguagesList list) {
 		Document doc = new Document();
+		
+		/*
+		 * 	<languages>
+		 * 		<language name="Java">
+		 * 			<extensions>
+		 * 				<extension text="java"/>
+		 * 			</extensions>
+		 * 			<lineCommentChar text="//"/
+		 * 			<blockCommentChars opening="/*" closing="* /"/>
+		 * 		</language>
+		 * 	</languages>
+		 */
 		
 		// The root element is the base element for the whole XML file, the one that encloses everything
 		Element root = new Element("languages");
 		doc.setRootElement(root);
 		
 		Element languageElement = new Element("language");
-		Element nameElement = new Element("name");
+		Element extensionsElement = new Element("extensions");
+		Element extensionElement = new Element("extension");
+		Element lineComElement = new Element("lineCommentChar");
+		Element blockComElement = new Element("blockCommentChars");
 		
-		nameElement.addContent(new Text("Java"));
-		languageElement.addContent(nameElement);
+		languageElement.setAttribute("name", "Java");
+		extensionElement.setAttribute("text", "java");
+		lineComElement.setAttribute("text", "//");
+		blockComElement.setAttribute("opening", "/*");
+		blockComElement.setAttribute("closing", "*/");
+		
+		extensionsElement.addContent(extensionElement);
+		languageElement.addContent(extensionsElement);
+		languageElement.addContent(lineComElement);
+		languageElement.addContent(blockComElement);
 		
 		root.addContent(languageElement);
 		
-		XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
+		return doc;
+	}
+	
+	public void writeList(LanguagesList list, File file) {
 		
+		Document doc = composeXML(list);
+		 
 		try {
-			out.output(doc, new FileOutputStream(new File("languages.xml")));
-			System.out.println("done");
+			XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
+			out.output(doc, new FileOutputStream(file));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -48,7 +73,7 @@ public class LanguagesFileWriter {
 
 	public static void main(String[] args) {
 		LanguagesFileWriter writer = new LanguagesFileWriter();
-		writer.writeXML();
+		writer.writeList(new LanguagesList(), new File("languages.xml"));
 
 	}
 
