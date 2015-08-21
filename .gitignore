@@ -61,6 +61,6 @@ $RECYCLE.BIN/
 
 /bin
 /lib
-.settings
+/.settings
 .classpath
 .project

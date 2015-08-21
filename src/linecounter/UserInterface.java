@@ -10,10 +10,10 @@ import javax.swing.border.TitledBorder;
 /**
  * Displays a graphical user interface to control the application.
  */
-@SuppressWarnings("serial")
 public class UserInterface extends JFrame{
+	private static final long serialVersionUID = -230222760615385955L;
 
-    private JComboBox<?> languagesDropDown;
+	private JComboBox<?> languagesDropDown;
 
     private JLabel rootFolderLabel		= new JLabel("Root folder: None selected");
     private JButton chooseRootButton    = new JButton("Choose root folder");
