@@ -124,7 +124,6 @@ public class Settings implements Serializable{
             // Read the available languages from an XML file
             LanguagesFileReader reader = new LanguagesFileReader();
             settings.availableLangs = reader.readList(new File(LANGUAGES_FILE_NAME));
-            settings.availableLangs.allLangs();
             
         } catch (FileNotFoundException ex) {
             System.out.println("Could not find file "+SETTINGS_FILE_NAME);

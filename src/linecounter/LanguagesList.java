@@ -41,9 +41,6 @@ public class LanguagesList{
      * @return
      */
     public ArrayList<Language> allLangs() {
-    	System.out.println("All languages:");
-    	for(Language lang: list)
-    		System.out.println(lang.index+ ". " + lang.toString());
     	return new ArrayList<Language>(list);
     }
 

@@ -36,7 +36,6 @@ public class UserInterface extends JFrame{
     public UserInterface(){
 
         final ProjectReader projectReader = new ProjectReader(settings);
-        System.out.println("Settings for whole object: "+settings+"\nSettings for project reader: "+projectReader.settings);
 
         ignoreCommentsCheckbox.setSelected(settings.ignoreComments);
         languagesDropDown.setSelectedIndex(settings.selectedLangIndex);

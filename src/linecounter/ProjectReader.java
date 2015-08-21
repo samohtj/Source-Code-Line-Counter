@@ -28,6 +28,14 @@ public class ProjectReader {
     public long commentLines() {return commentLines;}
     public long numFiles() {return numFiles;}
     public long numFolders() {return numFolders;}
+    
+    /**
+     * Create a new ProjectReader object with the given settings.
+     * @param settings
+     */
+    public ProjectReader(Settings settings) {
+    	this.settings = settings;
+    }
 
     /**
      * Run the program on the set root folder.
@@ -93,13 +101,5 @@ public class ProjectReader {
         }
         
         return false;
-    }
-    
-    /**
-     * Create a new ProjectReader object with the given settings.
-     * @param settings
-     */
-    public ProjectReader(Settings settings) {
-    	this.settings = settings;
     }
 }
