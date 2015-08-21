@@ -40,7 +40,7 @@ public class UserInterface extends JFrame{
         final ProjectReader projectReader = new ProjectReader(settings);
 
         ignoreCommentsCheckbox.setSelected(settings.ignoreComments);
-        languagesDropDown.setSelectedIndex(settings.selectedLanguage.index);
+        languagesDropDown.setSelectedIndex(settings.selectedLangIndex);
         rootFolderLabel.setText("Root folder: "+settings.rootFolder.getName());
 
         if(settings.rootFolder==null){
@@ -96,7 +96,7 @@ public class UserInterface extends JFrame{
             public void windowClosing(java.awt.event.WindowEvent ev){
                 // Create a new Settings object with all the current settings loaded
                 Settings newSettings = new Settings(ignoreCommentsCheckbox.isSelected(),
-                        projectReader.settings.selectedLanguage, projectReader.rootFolder);
+                        projectReader.settings.selectedLangIndex, projectReader.rootFolder);
 
                 Settings.save(newSettings);    // Serialize the settings
                 System.exit(0);                // Exit the program

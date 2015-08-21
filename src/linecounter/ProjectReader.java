@@ -90,7 +90,7 @@ public class ProjectReader {
 
         // If the file even has an extension, check to see if it's valid
         if(bits.length>1) {
-            for(String ext: settings.selectedLanguage.extensions) {
+            for(String ext: settings.selectedLang().extensions) {
                 if(ext.equals(bits[bits.length-1]))
                     return true;
             }
@@ -122,7 +122,7 @@ public class ProjectReader {
      */
     public void setLanguage(int languageIndex) {
         settings.selectLanguage(languageIndex);
-        this.language = settings.selectedLanguage;
+        this.language = settings.selectedLang();
     }
 
     /**
@@ -132,7 +132,7 @@ public class ProjectReader {
     public ProjectReader(Settings settings) {
     	this.settings = settings;
         this.ignoreComments = settings.ignoreComments;
-        this.language = settings.selectedLanguage;
+        this.language = settings.selectedLang();
         this.rootFolder = settings.rootFolder;
     }
 }
