@@ -10,6 +10,10 @@ import java.util.ArrayList;
 public class LanguagesList extends ArrayList<Language>{
 	private static final long serialVersionUID = 8102198895664199057L;
 
+	/**
+	 * Get the language at the specified position in the list.
+	 * @param index
+	 */
 	public Language get(int index) {
     	// If the index asked for is out of bounds, default to Java
     	if(index > size() - 1)
@@ -26,6 +30,10 @@ public class LanguagesList extends ArrayList<Language>{
     	return new ArrayList<Language>(this);
     }
 
+    /**
+     * Create an array holding the names of all the languages in the list.
+     * @return String array with names of languages.
+     */
     public String[] availableLangs() {
     	
     	String[] langs = new String[size()];

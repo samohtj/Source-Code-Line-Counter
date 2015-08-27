@@ -18,7 +18,7 @@ public class ProjectReader {
 
     private long totalLines     = 0;
     private long commentLines   = 0;
-    
+
     public Settings settings;
 
     /*
@@ -28,9 +28,9 @@ public class ProjectReader {
     public long commentLines() {return commentLines;}
     public long numFiles() {return numFiles;}
     public long numFolders() {return numFolders;}
-    
+
     /**
-     * Create a new ProjectReader object with the given settings.
+     *
      * @param settings
      */
     public ProjectReader(Settings settings) {
@@ -74,8 +74,8 @@ public class ProjectReader {
                 numFiles++;
 
                 // Create a source file reader for the file, and add its line count to the total count
-                SourceFileReader reader =  new SourceFileReader(file, 
-                		settings.selectedLang(), 
+                SourceFileReader reader =  new SourceFileReader(file,
+                		settings.selectedLang(),
                 		settings.ignoreComments);
                 totalLines += reader.totalLines;
                 commentLines += reader.commentLines;
@@ -99,7 +99,7 @@ public class ProjectReader {
                     return true;
             }
         }
-        
+
         return false;
     }
 }

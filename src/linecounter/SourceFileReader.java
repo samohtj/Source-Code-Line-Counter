@@ -7,9 +7,9 @@ import java.io.LineNumberReader;
 import java.util.Scanner;
 
 /**
- * SourceFileReader
- * A class that reads a source code file, and determines the number of lines it contains. This class can
- * sort out comment lines, and return both the number of comment lines and lines with actual code.
+ * SourceFileReader reads a source code file, and determines the number of lines it contains. This
+ * class can sort out comment lines, and return both the number of comment lines and lines with
+ * actual code.
  * @author Jonathan Thomas
  *
  */
@@ -21,6 +21,12 @@ public class SourceFileReader {
     public long totalLines      = 0;// Total number of lines of any kind in the file
     public long commentLines    = 0;// Total number of comment lines in the file
 
+    /**
+     *
+     * @param File The file to read.
+     * @param Language The language the file is written in.
+     * @param ignoreComments Whether to ignore lines that are commented.
+     */
     public SourceFileReader(File file, Language language, boolean ignoreComments){
         this.theFile = file;
         this.commentChars = language.lineCommentChars;
@@ -28,6 +34,12 @@ public class SourceFileReader {
         numberOfLines(ignoreComments);
     }
 
+    /**
+     * Count the number of lines in a source file. If {@code ignoreComments} is true, the method will
+     * not add commented lines to the count. The resultant count will be placed into 
+     *
+     *
+     */
     public void numberOfLines(boolean ignoreComments){
 
         // Try to read the total number of lines in the file
