@@ -18,8 +18,7 @@ public class SourceFileReader {
     private File theFile;           // The file to check
     private String[] commentChars;  // Characters that start a comment in this language.
 
-    public long totalLines      = 0;// Total number of lines of any kind in the file
-    public long commentLines    = 0;// Total number of comment lines in the file
+    private long totalLines      = 0;// Total number of lines of any kind in the file
 
     /**
      *
@@ -33,6 +32,14 @@ public class SourceFileReader {
 
         numberOfLines(ignoreComments);
     }
+    
+    /**
+     * 
+     * @return The total number of lines in this source file.
+     */
+    public long totalLines() {
+    	return totalLines;
+    }
 
     /**
      * Count the number of lines in a source file. If {@code ignoreComments} is true, the method will
@@ -40,7 +47,7 @@ public class SourceFileReader {
      *
      *
      */
-    public void numberOfLines(boolean ignoreComments){
+    private void numberOfLines(boolean ignoreComments){
 
         // Try to read the total number of lines in the file
         try {
@@ -57,11 +64,9 @@ public class SourceFileReader {
                 Scanner in = new Scanner(theFile);
                 while(in.hasNext()){
                     String line = in.nextLine();
-                    if(detectCommentLine(line)){
-                        commentLines++;
-                    }else{
+                    if(!detectCommentLine(line))
                         totalLines++;
-                    }
+
                 }
 
                 in.close();        // Remember to close the scanner!

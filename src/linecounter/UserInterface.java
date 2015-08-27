@@ -26,8 +26,6 @@ public class UserInterface extends JFrame{
     private JLabel numFilesLabel    = new JLabel();
     private JLabel numFoldersLabel  = new JLabel();
 
-    private JLabel commentLinesLabel = new JLabel();
-
     private Settings settings = Settings.load();
 
     // Create a project reader to look through the project files
@@ -93,10 +91,6 @@ public class UserInterface extends JFrame{
                 numLinesLabel.setText("Total lines: "+projectReader.totalLines());
                 numFilesLabel.setText("Total files searched: "+projectReader.numFiles());
                 numFoldersLabel.setText("Total folders searched: "+projectReader.numFolders());
-
-                // Only update these labels if the ignoreComments box is checked
-                // Otherwise, leave them blank
-                commentLinesLabel.setText(!ignoreCommentsCheckbox.isSelected()?"Comment lines: "+projectReader.commentLines():"");
             }
         });
 
@@ -141,7 +135,6 @@ public class UserInterface extends JFrame{
         resultsPanel.add(new JLabel("RESULTS"));
         resultsPanel.add(new JLabel());
         resultsPanel.add(numLinesLabel);
-        resultsPanel.add(commentLinesLabel);
         resultsPanel.add(numFilesLabel);
         resultsPanel.add(new JLabel());
         resultsPanel.add(numFoldersLabel);

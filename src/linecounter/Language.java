@@ -42,7 +42,7 @@ public class Language {
     }
     
     /**
-     * @return A formatted String containing this language's relevan information.
+     * @return A formatted String containing this language's relevant information.
      */
     public String toString() {
     	return name 

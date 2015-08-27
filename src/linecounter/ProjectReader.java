@@ -17,7 +17,6 @@ public class ProjectReader {
     private long numFolders = 0;
 
     private long totalLines     = 0;
-    private long commentLines   = 0;
 
     public Settings settings;
 
@@ -25,7 +24,6 @@ public class ProjectReader {
      * Getters for the various line counts
      */
     public long totalLines() {return totalLines;}
-    public long commentLines() {return commentLines;}
     public long numFiles() {return numFiles;}
     public long numFolders() {return numFolders;}
 
@@ -44,7 +42,6 @@ public class ProjectReader {
     public void run() {
         // Reset counters before running the program!
         totalLines      = 0;
-        commentLines    = 0;
         numFiles        = 0;
         numFolders      = 0;
 
@@ -77,8 +74,7 @@ public class ProjectReader {
                 SourceFileReader reader =  new SourceFileReader(file,
                 		settings.selectedLang(),
                 		settings.ignoreComments);
-                totalLines += reader.totalLines;
-                commentLines += reader.commentLines;
+                totalLines += reader.totalLines();
             }
         }
     }
