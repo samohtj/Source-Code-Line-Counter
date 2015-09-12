@@ -1,32 +1,21 @@
 package linecounter;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import linecounter.userinterface.LanguageSelectionPanel;
 import linecounter.userinterface.ProjectSelectionPanel;
 import linecounter.userinterface.ResultsPanel;
 import linecounter.userinterface.RunProgramPanel;
+import linecounter.userinterface.SourceCounterPanel;
 
 /**
  * Displays a graphical user interface to control the application.
  */
 public class UserInterface extends JFrame{
 	private static final long serialVersionUID = -230222760615385955L;
-
-	private JComboBox<?> languagesDropDown;
-
-    private JLabel rootFolderLabel		= new JLabel("Root folder: None selected");
-    private JButton chooseRootButton    = new JButton("Choose root folder");
-
-    private JButton runButton           = new JButton("Run counter");
-    private JCheckBox ignoreCommentsCheckbox = new JCheckBox("Include comments and whitespace");
-
-
 
     private Settings settings = Settings.load();
 
@@ -37,10 +26,6 @@ public class UserInterface extends JFrame{
 
         final ProjectReader projectReader = new ProjectReader(settings);
 
-        ignoreCommentsCheckbox.setSelected(settings.ignoreComments);
-        languagesDropDown  = new JComboBox<Object>(settings.availableLangs.availableLangs());
-        languagesDropDown.setSelectedIndex(settings.selectedLangIndex);
-
         if(settings.rootFolder==null){
             try {
                 settings.chooseRootFolder();
@@ -49,54 +34,12 @@ public class UserInterface extends JFrame{
             }
         }
         
-        rootFolderLabel.setText("Root folder: "+settings.rootFolder.getName());
-
-        //
-        //    ACTION LISTENERS
-        //
-
-        // LANGUAGES LIST DROPDOWN
-        languagesDropDown.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ev){
-                // Update the settings
-                settings.selectedLangIndex = ((JComboBox<?>) ev.getSource()).getSelectedIndex();
-            }
-        });
-
-        // ROOT FOLDER BUTTON
-        chooseRootButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ev){
-                try {
-                    // Try to choose the root folder of the project
-                    settings.chooseRootFolder();
-
-                    // Set the rootFolderLabel's text contents to the name of the root folder
-                    rootFolderLabel.setText("Root folder: "+settings.rootFolder.getName());
-                    
-                } catch (NoFileChosenException e) {}
-            }
-        });
+        // Create panels to store the two different selection options (project folder and language)
+        SourceCounterPanel langSelectionPanel   	= new LanguageSelectionPanel(settings);
+        SourceCounterPanel projectSelectionPanel	= new ProjectSelectionPanel(settings);
+        SourceCounterPanel runProgramPanel			= new RunProgramPanel(settings);
+        SourceCounterPanel resultsPanel				= new ResultsPanel(settings);
         
-        // IGNORE COMMETNS CHECKBOX
-        ignoreCommentsCheckbox.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent ev) {
-        		// Update the settings
-        		settings.ignoreComments = ignoreCommentsCheckbox.isSelected();
-        	}
-        });
-
-        // RUN BUTTON
-        runButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ev){
-                // Run the program, and update the results labels appropriately
-                projectReader.run();
-                
-                numLinesLabel.setText("Total lines: "+projectReader.totalLines());
-                numFilesLabel.setText("Total files searched: "+projectReader.numFiles());
-                numFoldersLabel.setText("Total folders searched: "+projectReader.numFolders());
-            }
-        });
-
         // ON WINDOW CLOSE
         addWindowListener(new java.awt.event.WindowAdapter(){
             public void windowClosing(java.awt.event.WindowEvent ev){
@@ -104,37 +47,6 @@ public class UserInterface extends JFrame{
                 System.exit(0);       		// Exit the program
             }
         });
-
-        //
-        //    ORGANIZATION
-        //
-
-        // Create panels to store the two different selection options (project folder and language)
-        LanguageSelectionPanel langSelectionPanel   = new LanguageSelectionPanel();
-        ProjectSelectionPanel projectSelectionPanel	= new ProjectSelectionPanel();
-        RunProgramPanel runProgramPanel				= new RunProgramPanel();
-        ResultsPanel resultsPanel					= new ResultsPanel();
-
-        // Add borders to the panels to differentiate them
-        langSelectionPanel.setBorder(new TitledBorder("Language"));
-        projectSelectionPanel.setBorder(new TitledBorder("Project"));
-        resultsPanel.setBorder(new TitledBorder("Results"));
-
-        // PROJECT SLECTION PANEL
-        projectSelectionPanel.setLayout(new GridLayout(2, 1));
-        projectSelectionPanel.add(chooseRootButton);
-        projectSelectionPanel.add(rootFolderLabel);
-
-        // LANGUAGE SELECTION PANEL
-        langSelectionPanel.add(languagesDropDown);
-
-        // RUN PROGRAM PANEL
-        runProgramPanel.setLayout(new GridLayout(2, 1));
-        runProgramPanel.add(runButton);
-        runProgramPanel.add(ignoreCommentsCheckbox);
-
-        // RESULTS PANEL
-        
 
         // LEFT SIDE PANEL
         JPanel leftPanel = new JPanel(new GridLayout(3, 1));

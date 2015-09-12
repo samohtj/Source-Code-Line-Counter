@@ -3,7 +3,9 @@ package linecounter.userinterface;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
+
+import linecounter.Settings;
 
 /**
  * A JLabel object that displays the results of a program execution.
@@ -16,16 +18,18 @@ import javax.swing.JPanel;
  */
 // Suppress serial warnings. We aren't ever going to serialize this object.
 @SuppressWarnings("serial")
-public class ResultsPanel extends JPanel{
+public class ResultsPanel extends SourceCounterPanel{
 	
     // Results labels
     private JLabel numLinesLabel    = new JLabel();
     private JLabel numFilesLabel    = new JLabel();
     private JLabel numFoldersLabel  = new JLabel();
     
+    Settings settings;
+    
     // TODO Figure out how to make the results update
 	
-	public ResultsPanel() {
+	public ResultsPanel(Settings set) {
 		setLayout(new GridLayout(4, 2));
         add(new JLabel("RESULTS"));
         add(new JLabel());
@@ -33,6 +37,13 @@ public class ResultsPanel extends JPanel{
         add(numFilesLabel);
         add(new JLabel());
         add(numFoldersLabel);
+        setBorder(new TitledBorder("Results"));
+	}
+
+	@Override
+	void update() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
