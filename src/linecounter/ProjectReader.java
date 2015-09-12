@@ -39,13 +39,15 @@ public class ProjectReader {
      * Run the program on the set root folder.
      * @param ignoreComments
      */
-    public void run() {
+    public RunResult run() {
         // Reset counters before running the program!
-        totalLines      = 0;
         numFiles        = 0;
         numFolders      = 0;
+        totalLines      = 0;
 
         recursiveDirectoryCheck(settings.rootFolder);
+        
+        return new RunResult(numFiles, numFolders, totalLines);
     }
 
     /**
