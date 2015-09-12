@@ -7,6 +7,11 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import linecounter.userinterface.LanguageSelectionPanel;
+import linecounter.userinterface.ProjectSelectionPanel;
+import linecounter.userinterface.ResultsPanel;
+import linecounter.userinterface.RunProgramPanel;
+
 /**
  * Displays a graphical user interface to control the application.
  */
@@ -21,10 +26,7 @@ public class UserInterface extends JFrame{
     private JButton runButton           = new JButton("Run counter");
     private JCheckBox ignoreCommentsCheckbox = new JCheckBox("Include comments and whitespace");
 
-    // Results labels
-    private JLabel numLinesLabel    = new JLabel();
-    private JLabel numFilesLabel    = new JLabel();
-    private JLabel numFoldersLabel  = new JLabel();
+
 
     private Settings settings = Settings.load();
 
@@ -88,6 +90,7 @@ public class UserInterface extends JFrame{
             public void actionPerformed(ActionEvent ev){
                 // Run the program, and update the results labels appropriately
                 projectReader.run();
+                
                 numLinesLabel.setText("Total lines: "+projectReader.totalLines());
                 numFilesLabel.setText("Total files searched: "+projectReader.numFiles());
                 numFoldersLabel.setText("Total folders searched: "+projectReader.numFolders());
@@ -107,10 +110,10 @@ public class UserInterface extends JFrame{
         //
 
         // Create panels to store the two different selection options (project folder and language)
-        JPanel langSelectionPanel       = new JPanel();
-        JPanel projectSelectionPanel    = new JPanel();
-        JPanel runProgramPanel          = new JPanel();
-        JPanel resultsPanel             = new JPanel();
+        LanguageSelectionPanel langSelectionPanel   = new LanguageSelectionPanel();
+        ProjectSelectionPanel projectSelectionPanel	= new ProjectSelectionPanel();
+        RunProgramPanel runProgramPanel				= new RunProgramPanel();
+        ResultsPanel resultsPanel					= new ResultsPanel();
 
         // Add borders to the panels to differentiate them
         langSelectionPanel.setBorder(new TitledBorder("Language"));
@@ -131,13 +134,7 @@ public class UserInterface extends JFrame{
         runProgramPanel.add(ignoreCommentsCheckbox);
 
         // RESULTS PANEL
-        resultsPanel.setLayout(new GridLayout(4, 2));
-        resultsPanel.add(new JLabel("RESULTS"));
-        resultsPanel.add(new JLabel());
-        resultsPanel.add(numLinesLabel);
-        resultsPanel.add(numFilesLabel);
-        resultsPanel.add(new JLabel());
-        resultsPanel.add(numFoldersLabel);
+        
 
         // LEFT SIDE PANEL
         JPanel leftPanel = new JPanel(new GridLayout(3, 1));
