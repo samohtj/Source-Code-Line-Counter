@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 
 import linecounter.NoFileChosenException;
+import linecounter.RunResult;
 import linecounter.Settings;
 
 /**
@@ -44,8 +45,7 @@ public class ProjectSelectionPanel extends SourceCounterPanel{
     }
 
 	@Override
-	public void update() {
-		// TODO Auto-generated method stub
+	public void update(RunResult result) {
 		
 	}
 

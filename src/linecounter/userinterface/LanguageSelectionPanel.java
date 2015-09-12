@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
+import javax.swing.border.TitledBorder;
 
+import linecounter.RunResult;
 import linecounter.Settings;
 
 /**
@@ -19,6 +21,9 @@ public class LanguageSelectionPanel extends SourceCounterPanel {
 	private JComboBox<?> languagesDropDown;
 	
 	public LanguageSelectionPanel(Settings set) {
+		
+		this.settings = set;
+		
 		languagesDropDown  = new JComboBox<Object>(settings.availableLangs.availableLangs());
         languagesDropDown.setSelectedIndex(settings.selectedLangIndex);
         
@@ -31,11 +36,11 @@ public class LanguageSelectionPanel extends SourceCounterPanel {
         });
         
         add(languagesDropDown);
+        setBorder(new TitledBorder("Language"));
 	}
 
 	@Override
-	void update() {
-		// TODO Auto-generated method stub
+	public void update(RunResult result) {
 		
 	}
 

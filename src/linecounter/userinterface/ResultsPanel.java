@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 
+import linecounter.RunResult;
 import linecounter.Settings;
 
 /**
@@ -26,8 +27,6 @@ public class ResultsPanel extends SourceCounterPanel{
     private JLabel numFoldersLabel  = new JLabel();
     
     Settings settings;
-    
-    // TODO Figure out how to make the results update
 	
 	public ResultsPanel(Settings set) {
 		setLayout(new GridLayout(4, 2));
@@ -41,9 +40,10 @@ public class ResultsPanel extends SourceCounterPanel{
 	}
 
 	@Override
-	void update() {
-		// TODO Auto-generated method stub
-		
+	public void update(RunResult result) {
+		numLinesLabel.setText("Total lines: "+result.totalLines());
+        numFilesLabel.setText("Total files searched: "+result.numFiles());
+        numFoldersLabel.setText("Total folders searched: "+result.numFolders());
 	}
 
 }

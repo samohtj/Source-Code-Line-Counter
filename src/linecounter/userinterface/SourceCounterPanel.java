@@ -1,7 +1,10 @@
 package linecounter.userinterface;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 
+import linecounter.RunResult;
 import linecounter.Settings;
 
 /**
@@ -15,5 +18,9 @@ public abstract class SourceCounterPanel extends JPanel{
 	
 	Settings settings;
 	
-	abstract void update();
+	public abstract void update(RunResult result);
+
+	public void addButtonListener(ActionListener actionListener) {
+		
+	}
 }

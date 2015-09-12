@@ -1,6 +1,8 @@
 package linecounter;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -38,13 +40,20 @@ public class UserInterface extends JFrame{
         SourceCounterPanel langSelectionPanel   	= new LanguageSelectionPanel(settings);
         SourceCounterPanel projectSelectionPanel	= new ProjectSelectionPanel(settings);
         SourceCounterPanel runProgramPanel			= new RunProgramPanel(settings);
-        SourceCounterPanel resultsPanel				= new ResultsPanel(settings);
+        final SourceCounterPanel resultsPanel		= new ResultsPanel(settings);
         
         // ON WINDOW CLOSE
         addWindowListener(new java.awt.event.WindowAdapter(){
             public void windowClosing(java.awt.event.WindowEvent ev){
                 Settings.save(settings);	// Serialize the settings
                 System.exit(0);       		// Exit the program
+            }
+        });
+        
+        runProgramPanel.addButtonListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ev){
+                // Run the program, and update the results labels appropriately
+                resultsPanel.update(projectReader.run());
             }
         });
 

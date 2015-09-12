@@ -142,10 +142,10 @@ public class Settings implements Serializable{
     /**
      * Generate a string from this object, for debugging purposes.
      */
-//	public String toString() {
-//		return "SETTINGS\n--------"
-//				+ "\nIgnore comments: " + ignoreComments
-//				+ "\nSelected language: " + selectedLangIndex
-//				+ "\nRoot folder: " + rootFolder.toString();
-//	}
+	public String toString() {
+		return "SETTINGS\n--------"
+				+ "\nIgnore comments: " + ignoreComments
+				+ "\nSelected language: " + selectedLangIndex
+				+ "\nRoot folder: " + rootFolder.toString();
+	}
 }

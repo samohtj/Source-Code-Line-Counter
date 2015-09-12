@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 
+import linecounter.RunResult;
 import linecounter.Settings;
 
 /**
@@ -28,7 +28,7 @@ public class RunProgramPanel extends SourceCounterPanel {
 		
 		this.settings = set;
 		
-		runButton = = new JButton("Run counter");
+		runButton = new JButton("Run counter");
 		ignoreCommentsCheckbox = new JCheckBox("Include comments and whitespace");
 		
 		ignoreCommentsCheckbox.setSelected(settings.ignoreComments);
@@ -38,26 +38,18 @@ public class RunProgramPanel extends SourceCounterPanel {
         		settings.ignoreComments = ignoreCommentsCheckbox.isSelected();
         	}
         });
-		
-        runButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ev){
-                // Run the program, and update the results labels appropriately
-                projectReader.run();
-                
-                numLinesLabel.setText("Total lines: "+projectReader.totalLines());
-                numFilesLabel.setText("Total files searched: "+projectReader.numFiles());
-                numFoldersLabel.setText("Total folders searched: "+projectReader.numFolders());
-            }
-        });
         
         setLayout(new GridLayout(2, 1));
         add(runButton);
         add(ignoreCommentsCheckbox);
 	}
+	
+	public void addButtonListener(ActionListener listener) {
+		runButton.addActionListener(listener);
+	}
 
 	@Override
-	void update() {
-		// TODO Auto-generated method stub
+	public void update(RunResult result) {
 		
 	}
 
