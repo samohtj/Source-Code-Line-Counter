@@ -19,7 +19,7 @@ public class LanguagesList extends ArrayList<Language>{
     	if(index > size() - 1)
     		return new Language();
     	
-        return get(index);
+        return super.get(index);
     }
     
     /**
