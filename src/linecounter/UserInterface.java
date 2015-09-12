@@ -40,6 +40,8 @@ public class UserInterface extends JFrame{
         SourceCounterPanel langSelectionPanel   	= new LanguageSelectionPanel(settings);
         SourceCounterPanel projectSelectionPanel	= new ProjectSelectionPanel(settings);
         SourceCounterPanel runProgramPanel			= new RunProgramPanel(settings);
+        
+        // This object has to be final, since it's referenced in the action listener below.
         final SourceCounterPanel resultsPanel		= new ResultsPanel(settings);
         
         // ON WINDOW CLOSE
@@ -50,6 +52,10 @@ public class UserInterface extends JFrame{
             }
         });
         
+        /*
+         * Add an action listener to the button on the run panel.
+         * This has to be here, since it affects more than one object.
+         */
         runProgramPanel.addButtonListener(new ActionListener(){
             public void actionPerformed(ActionEvent ev){
                 // Run the program, and update the results labels appropriately
@@ -57,7 +63,6 @@ public class UserInterface extends JFrame{
             }
         });
 
-        // LEFT SIDE PANEL
         JPanel leftPanel = new JPanel(new GridLayout(3, 1));
         leftPanel.add(projectSelectionPanel);
         leftPanel.add(runProgramPanel);
@@ -75,7 +80,5 @@ public class UserInterface extends JFrame{
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setVisible(true);
-
     }
-
 }
