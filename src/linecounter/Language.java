@@ -48,9 +48,11 @@ public class Language {
     		list[i] = lineCommentChars[i];
     	}
     	
-    	for(int i = lineCommentChars.length; i < lineCommentChars.length + blockCommentDelimiters.length; i++) {
-    		list[i] = blockCommentDelimiters[i][0] + " ... " + blockCommentDelimiters[i][1];
+    	for(int i = 0; i < blockCommentDelimiters.length; i++) {
+    		list[i + lineCommentChars.length] = blockCommentDelimiters[i][0] + " ... " 
+    				+ blockCommentDelimiters[i][1];
     	}
+
     	return list;
     }
     
