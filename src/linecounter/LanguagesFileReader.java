@@ -36,7 +36,7 @@ public class LanguagesFileReader {
 			// These variables require loops, so we'll set up the empty lists beforehand.
 			ArrayList<String> extensions = new ArrayList<String>();
 			ArrayList<String> lineCommentChars = new ArrayList<String>();
-			ArrayList<String> blockCommentChars = new ArrayList<String>();
+			ArrayList<String[]> blockCommentChars = new ArrayList<String[]>();
 			
 			// Loop through the "extension" elements contained by the "extensions" element
 			for(Element ext: lang.getChild("extensions").getChildren("extension")) {
@@ -52,8 +52,8 @@ public class LanguagesFileReader {
 			// Loop through all the possible "blockCommentChars" elements in the "language" element
 			// There should only be one, but you never know.
 			for(Element ch: lang.getChildren("blockCommentChars")) {
-				blockCommentChars.add(ch.getAttributeValue("opening"));
-				blockCommentChars.add(ch.getAttributeValue("closing"));
+				blockCommentChars.add(new String[]{ch.getAttributeValue("opening"), 
+						ch.getAttributeValue("closing")});
 			}
 			
 			// Create a new Language object from the information we just gathered, and return it.
@@ -61,7 +61,7 @@ public class LanguagesFileReader {
 					index, 
 					extensions.toArray(new String[] {}), 
 					lineCommentChars.toArray(new String[] {}), 
-					blockCommentChars.toArray(new String[] {}));
+					blockCommentChars.toArray(new String[][] {}));
 			
 			list.add(language);
 		}

@@ -13,7 +13,7 @@ public class Language {
     public int index;
     public String[] extensions;
     public String[] lineCommentChars;
-    public String[] blockCommentDelimiters;
+    public String[][] blockCommentDelimiters;
     
 
     /**
@@ -28,7 +28,7 @@ public class Language {
     		int index,
     		String[] extensions, 
     		String[] lineCommentChars, 
-    		String[] blockCommentDelimiters
+    		String[][] blockCommentDelimiters
     		){
         this.name = name;
         this.extensions = extensions;
@@ -38,7 +38,20 @@ public class Language {
     }
     
     public Language() {
-    	this("Java", 3, new String[]{"java"}, new String[]{"//"}, new String[]{"/*", "*/"});    	
+    	this("Java", 3, new String[]{"java"}, new String[]{"//"}, new String[][]{{"/*", "*/"}});
+    }
+    
+    public String[] allCommentChars() {
+    	String[] list = new String[lineCommentChars.length+blockCommentDelimiters.length];
+    	
+    	for(int i = 0; i < lineCommentChars.length; i++) {
+    		list[i] = lineCommentChars[i];
+    	}
+    	
+    	for(int i = lineCommentChars.length; i < lineCommentChars.length + blockCommentDelimiters.length; i++) {
+    		list[i] = blockCommentDelimiters[i][0] + " ... " + blockCommentDelimiters[i][1];
+    	}
+    	return list;
     }
     
     /**
@@ -48,6 +61,6 @@ public class Language {
     	return name 
     			+ "\nAvailable exts: " + Arrays.toString(extensions) 
     			+ "\nComment char: " + Arrays.toString(lineCommentChars)
-    			+ "\nBlock: " + blockCommentDelimiters[0] + " " + blockCommentDelimiters[1];
+    			+ "\nBlock: " + Arrays.toString(blockCommentDelimiters);
     }
 }
