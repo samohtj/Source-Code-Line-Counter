@@ -29,9 +29,7 @@ public class ResultsPanel extends SourceCounterPanel{
     Settings settings;
 	
 	public ResultsPanel(Settings set) {
-		setLayout(new GridLayout(4, 2));
-        add(new JLabel("RESULTS"));
-        add(new JLabel());
+		setLayout(new GridLayout(3, 2));
         add(numLinesLabel);
         add(numFilesLabel);
         add(new JLabel());

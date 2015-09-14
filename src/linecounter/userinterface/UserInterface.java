@@ -1,4 +1,4 @@
-package linecounter;
+package linecounter.userinterface;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -7,14 +7,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import linecounter.userinterface.LanguageSelectionPanel;
-import linecounter.userinterface.ProjectSelectionPanel;
-import linecounter.userinterface.ResultsPanel;
-import linecounter.userinterface.RunProgramPanel;
-import linecounter.userinterface.SourceCounterPanel;
+import linecounter.NoFileChosenException;
+import linecounter.ProjectReader;
+import linecounter.Settings;
 
 /**
  * Displays a graphical user interface to control the application.
+ * @author Jonathan Thomas
+ * 
  */
 public class UserInterface extends JFrame{
 	private static final long serialVersionUID = -230222760615385955L;
@@ -71,14 +71,5 @@ public class UserInterface extends JFrame{
         this.setLayout(new GridLayout(1, 2));
         this.add(leftPanel);
         this.add(langSelectionPanel);
-    }
-
-    public static void main(String[] args) {
-        UserInterface frame = new UserInterface();
-        frame.setTitle("Source Code Line Counter");
-        frame.setSize(725, 250);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.setVisible(true);
     }
 }
