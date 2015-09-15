@@ -69,6 +69,8 @@ public class LanguagesFileWriter {
 			
 			// Create a blockCommentChars element to store opening and closing block comment characters.
 			for(String[] text: language.blockCommentDelimiters) {
+				if(language.blockCommentDelimiters.length ==0)
+					break;
 				Element blockComElement = new Element("blockCommentChars");
 				blockComElement.setAttribute("opening", text[0]);
 				blockComElement.setAttribute("closing", text[1]);
@@ -100,10 +102,11 @@ public class LanguagesFileWriter {
 		
 	}
 
+	/*
 	public static void main(String[] args) {
 		LanguagesFileWriter writer = new LanguagesFileWriter();
 		writer.writeList(new LanguagesList(), new File("languages.xml"));
 
 	}
-
+	*/
 }

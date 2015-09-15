@@ -86,11 +86,12 @@ public class LanguagesFileReader {
 		return parseXML(doc);
 	}
 
+	/*
 	public static void main(String[] args) {
 		LanguagesFileReader reader = new LanguagesFileReader();
 		LanguagesList list = reader.readList(new File("languages.xml"));
 		list.allLangs();
 
 	}
-
+	*/
 }

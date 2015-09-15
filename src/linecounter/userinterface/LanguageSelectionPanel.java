@@ -54,6 +54,7 @@ public class LanguageSelectionPanel extends SourceCounterPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				NewLangDialog.showDialog(settings);
+				languagesDropDown = new JComboBox<Object>(settings.availableLangs.availableLangs());
 			}
         	
         });
