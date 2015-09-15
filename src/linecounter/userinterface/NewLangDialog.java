@@ -1,6 +1,7 @@
 package linecounter.userinterface;
 
-import javax.swing.Box;
+import java.awt.GridLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -11,21 +12,26 @@ import linecounter.Settings;
 public class NewLangDialog {
 
 	public static void showDialog(Settings settings) {
-		JTextField xField = new JTextField(5);
-		JTextField yField = new JTextField(5);
+		JTextField nameField = new JTextField(10);
+		JTextField extensionsField = new JTextField(10);
+		JTextField lineComField = new JTextField(10);
+		JTextField blockComField = new JTextField(10);
 
-		JPanel myPanel = new JPanel();
-		myPanel.add(new JLabel("x:"));
-		myPanel.add(xField);
-		myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-		myPanel.add(new JLabel("y:"));
-		myPanel.add(yField);
+		JPanel myPanel = new JPanel(new GridLayout(4, 2));
+		myPanel.add(new JLabel("Name:"));
+		myPanel.add(nameField);
+		myPanel.add(new JLabel("Extensions:"));
+		myPanel.add(extensionsField);
+		myPanel.add(new JLabel("Line comment characters:"));
+		myPanel.add(lineComField);
+		myPanel.add(new JLabel("Block comment characters:"));
+		myPanel.add(blockComField);
 
 		int result = JOptionPane.showConfirmDialog(null, myPanel,
 				"Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			System.out.println("x value: " + xField.getText());
-			System.out.println("y value: " + yField.getText());
+			System.out.println("x value: " + nameField.getText());
+			System.out.println("y value: " + extensionsField.getText());
 		}
 	}
 

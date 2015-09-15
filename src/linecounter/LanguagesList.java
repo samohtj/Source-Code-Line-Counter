@@ -29,6 +29,19 @@ public class LanguagesList extends ArrayList<Language>{
     public ArrayList<Language> allLangs() {
     	return new ArrayList<Language>(this);
     }
+    
+    /**
+     * Add a new language to the list. If a language with the same name already exists, do not add it.
+     * @param lang
+     */
+    public void addLanguage(Language lang) {
+    	for(Language existingLang: this) {
+    		if(existingLang.name.equals(lang.name))
+    			return;
+    	}
+    	
+    	add(lang);
+    }
 
     /**
      * Create an array holding the names of all the languages in the list.

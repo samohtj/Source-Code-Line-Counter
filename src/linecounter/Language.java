@@ -10,7 +10,6 @@ import java.util.Arrays;
  */
 public class Language {
     public String name;
-    //public int index;
     public String[] extensions;
     public String[] lineCommentChars;
     public String[][] blockCommentDelimiters;
@@ -25,7 +24,6 @@ public class Language {
      * @param blockCommentDelimiters
      */
     public Language(String name, 
-    		//int index,
     		String[] extensions, 
     		String[] lineCommentChars, 
     		String[][] blockCommentDelimiters
@@ -38,9 +36,13 @@ public class Language {
     }
     
     public Language() {
-    	this("Java", /*3,*/ new String[]{"java"}, new String[]{"//"}, new String[][]{{"/*", "*/"}});
+    	this("Java", new String[]{"java"}, new String[]{"//"}, new String[][]{{"/*", "*/"}});
     }
     
+    /**
+     * Return an array containing all of both types of comment characters.
+     * @return
+     */
     public String[] allCommentChars() {
     	String[] list = new String[lineCommentChars.length+blockCommentDelimiters.length];
     	
