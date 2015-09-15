@@ -49,6 +49,15 @@ public class LanguageSelectionPanel extends SourceCounterPanel {
             }
         });
         
+        newLangButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				NewLangDialog.showDialog(settings);
+			}
+        	
+        });
+        
         JPanel topPanel = new JPanel(new GridLayout(1, 2));
         topPanel.add(languagesDropDown);
         topPanel.add(newLangButton);

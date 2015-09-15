@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 public class Language {
     public String name;
-    public int index;
+    //public int index;
     public String[] extensions;
     public String[] lineCommentChars;
     public String[][] blockCommentDelimiters;
@@ -25,7 +25,7 @@ public class Language {
      * @param blockCommentDelimiters
      */
     public Language(String name, 
-    		int index,
+    		//int index,
     		String[] extensions, 
     		String[] lineCommentChars, 
     		String[][] blockCommentDelimiters
@@ -34,11 +34,11 @@ public class Language {
         this.extensions = extensions;
         this.lineCommentChars = lineCommentChars;
         this.blockCommentDelimiters = blockCommentDelimiters;
-        this.index = index;
+        //this.index = index;
     }
     
     public Language() {
-    	this("Java", 3, new String[]{"java"}, new String[]{"//"}, new String[][]{{"/*", "*/"}});
+    	this("Java", /*3,*/ new String[]{"java"}, new String[]{"//"}, new String[][]{{"/*", "*/"}});
     }
     
     public String[] allCommentChars() {

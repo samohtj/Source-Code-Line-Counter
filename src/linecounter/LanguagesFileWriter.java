@@ -49,7 +49,6 @@ public class LanguagesFileWriter {
 			// Create a new language element, and add the name and index
 			Element languageElement = new Element("language");
 			languageElement.setAttribute("name", language.name);
-			languageElement.setAttribute("index", Integer.toString(language.index));
 			
 			// Create an extensions element to hold all the available file extensions, and then
 			// create extension elements for each available file extension in the language.
@@ -61,7 +60,7 @@ public class LanguagesFileWriter {
 			}
 			languageElement.addContent(extensionsElement);
 			
-			// Create a lineCommentChars element for each avaliable line comment character string.
+			// Create a lineCommentChars element for each available line comment character string.
 			for(String text: language.lineCommentChars) {
 				Element lineComElement = new Element("lineCommentChar");
 				lineComElement.setAttribute("text", text);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <languages>
-  <language name="C" index="0">
+  <language name="C">
     <extensions>
       <extension text="c" />
       <extension text="h" />
@@ -8,7 +8,7 @@
     <lineCommentChar text="//" />
     <blockCommentChars opening="/*" closing="*/" />
   </language>
-  <language name="C++" index="1">
+  <language name="C++">
     <extensions>
       <extension text="cc" />
       <extension text="cpp" />
@@ -24,21 +24,21 @@
     <lineCommentChar text="//" />
     <blockCommentChars opening="/*" closing="*/" />
   </language>
-  <language name="C#" index="2">
+  <language name="C#">
     <extensions>
       <extension text="cs" />
     </extensions>
     <lineCommentChar text="//" />
     <blockCommentChars opening="/*" closing="*/" />
   </language>
-  <language name="Java" index="3">
+  <language name="Java">
     <extensions>
       <extension text="java" />
     </extensions>
     <lineCommentChar text="//" />
     <blockCommentChars opening="/*" closing="*/" />
   </language>
-  <language name="PHP" index="4">
+  <language name="PHP">
     <extensions>
       <extension text="php" />
     </extensions>
@@ -46,7 +46,7 @@
     <lineCommentChar text="#" />
     <blockCommentChars opening="/*" closing="*/" />
   </language>
-  <language name="Python" index="5">
+  <language name="Python">
     <extensions>
       <extension text="py" />
     </extensions>

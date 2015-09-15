@@ -31,7 +31,6 @@ public class LanguagesFileReader {
 		
 		for(Element lang: root.getChildren("language")) {
 			String name = lang.getAttributeValue("name");
-			int index = Integer.parseInt(lang.getAttributeValue("index"));
 			
 			// These variables require loops, so we'll set up the empty lists beforehand.
 			ArrayList<String> extensions = new ArrayList<String>();
@@ -58,7 +57,6 @@ public class LanguagesFileReader {
 			
 			// Create a new Language object from the information we just gathered, and return it.
 			Language language = new Language(name, 
-					index, 
 					extensions.toArray(new String[] {}), 
 					lineCommentChars.toArray(new String[] {}), 
 					blockCommentChars.toArray(new String[][] {}));
