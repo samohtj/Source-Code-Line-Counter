@@ -19,15 +19,20 @@ import linecounter.Settings;
  */
 // Suppress serial warnings. We aren't ever going to serialize this object.
 @SuppressWarnings("serial")
-public class ResultsPanel extends SourceCounterPanel{
-	
+public class ResultsPanel extends SourceCounterPanel {
+
     // Results labels
     private JLabel numLinesLabel    = new JLabel();
     private JLabel numFilesLabel    = new JLabel();
     private JLabel numFoldersLabel  = new JLabel();
-    
+
     Settings settings;
-	
+
+	/**
+	 * Construct a new JPanel to display a runtime result.
+	 * @param  set Settings to use.
+	 * @return     New ResultsPanel object.
+	 */
 	public ResultsPanel(Settings set) {
 		setLayout(new GridLayout(3, 2));
         add(numLinesLabel);
@@ -37,11 +42,14 @@ public class ResultsPanel extends SourceCounterPanel{
         setBorder(new TitledBorder("Results"));
 	}
 
+	/**
+	 * Update the panel.
+	 * @param result RunResult to pull data from.
+	 */
 	@Override
 	public void update(RunResult result) {
 		numLinesLabel.setText("Total lines: "+result.totalLines());
         numFilesLabel.setText("Total files searched: "+result.numFiles());
         numFoldersLabel.setText("Total folders searched: "+result.numFolders());
 	}
-
 }

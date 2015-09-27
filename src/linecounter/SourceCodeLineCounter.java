@@ -25,5 +25,4 @@ public class SourceCodeLineCounter {
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setVisible(true);
     }
-
 }

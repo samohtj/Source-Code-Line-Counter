@@ -23,13 +23,13 @@ public class ProjectReader {
     /*
      * Getters for the various line counts
      */
-    public long totalLines() {return totalLines;}
-    public long numFiles() {return numFiles;}
-    public long numFolders() {return numFolders;}
+    public long totalLines() { return totalLines; }
+    public long numFiles() { return numFiles; }
+    public long numFolders() { return numFolders; }
 
     /**
-     *
-     * @param settings
+     * Construct a project reader from the given settings.
+     * @param settings Settings to use.
      */
     public ProjectReader(Settings settings) {
     	this.settings = settings;
@@ -46,7 +46,7 @@ public class ProjectReader {
         totalLines      = 0;
 
         recursiveDirectoryCheck(settings.rootFolder);
-        
+
         return new RunResult(numFiles, numFolders, totalLines);
     }
 
@@ -59,17 +59,18 @@ public class ProjectReader {
         File[] files = dir.listFiles();
 
         // If no files are found in this directory, end the function
-        if(files==null)
+        if (files==null) {
             return;
+        }
 
-        for(File file: files) {
+        for (File file: files) {
             // If the current file is a directory, perform this same process again
-            if(file.isDirectory()) {
+            if (file.isDirectory()) {
                 recursiveDirectoryCheck(file);
                 numFolders++;
             }
             // Ignore files that do not contain source code
-            else if(isSourceCodeFile(file)) {
+            else if (isSourceCodeFile(file)) {
                 numFiles++;
 
                 // Create a source file reader for the file, and add its line count to the total count
@@ -91,10 +92,11 @@ public class ProjectReader {
         String[] bits = file.getName().split("\\.");
 
         // If the file even has an extension, check to see if it's valid
-        if(bits.length>1) {
-            for(String ext: settings.selectedLang().extensions) {
-                if(ext.equals(bits[bits.length-1]))
+        if (bits.length>1) {
+            for (String ext: settings.selectedLang().extensions) {
+                if (ext.equals(bits[bits.length-1])) {
                     return true;
+                }
             }
         }
 

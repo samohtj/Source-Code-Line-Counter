@@ -16,30 +16,32 @@ public class LanguagesList extends ArrayList<Language>{
 	 */
 	public Language get(int index) {
     	// If the index asked for is out of bounds, default to Java
-    	if(index > size() - 1)
+    	if (index > size() - 1) {
     		return new Language();
-    	
+		}
+
         return super.get(index);
     }
-    
+
     /**
      * Return a new ArrayList containing all the Language objects stored in this list.
-     * @return
+     * @return List of all languages.
      */
     public ArrayList<Language> allLangs() {
     	return new ArrayList<Language>(this);
     }
-    
+
     /**
      * Add a new language to the list. If a language with the same name already exists, do not add it.
-     * @param lang
+     * @param lang Language to add.
      */
     public void addLanguage(Language lang) {
-    	for(Language existingLang: this) {
-    		if(existingLang.name.equals(lang.name))
+    	for (Language existingLang: this) {
+    		if (existingLang.name.equals(lang.name)) {
     			return;
+			}
     	}
-    	
+
     	add(lang);
     }
 
@@ -48,13 +50,13 @@ public class LanguagesList extends ArrayList<Language>{
      * @return String array with names of languages.
      */
     public String[] availableLangs() {
-    	
+
     	String[] langs = new String[size()];
-    	
-    	for(int i = 0; i < size(); i++) {
+
+    	for (int i = 0; i < size(); i++) {
     		langs[i] = get(i).name;
     	}
-    	
+
     	return langs;
     }
 }

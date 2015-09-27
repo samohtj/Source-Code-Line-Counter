@@ -20,6 +20,10 @@ import linecounter.Settings;
 @SuppressWarnings("unused")
 public class NewLangDialog {
 
+	/**
+	 * Show a dialog to get information on a new language.
+	 * @param settings Settings to use.
+	 */
 	public static void showDialog(Settings settings) {
 		JTextField nameField = new JTextField(10);
 		JTextField extensionsField = new JTextField(10);
@@ -39,30 +43,26 @@ public class NewLangDialog {
 		int result = JOptionPane.showConfirmDialog(null, panel,
 				"Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			
+
 			// Create String objects that can be manipulated, and remove all whitespace characters
 			String nameText = nameField.getText().replaceAll("\\s+","");
 			String extsText = extensionsField.getText().replaceAll("\\s+","");
 			String lncmText = lineComField.getText().replaceAll("\\s+","");
 			String blcmText = blockComField.getText();
-			
+
 			String[] extensions = extsText.split(",");
 			String[] lineComChars = lncmText.split(",");
 			String[][] blockComChars = {blcmText.split(" ")};
-			
+
 			/*
 			System.out.println("Name: " + nameText);
 			System.out.println("Extensions: " + Arrays.toString(extensions));
 			System.out.println("Line comment characters: " + Arrays.toString(lineComChars));
 			System.out.println("Block comment characters: " + Arrays.toString(blockComChars));
 			*/
-			
+
 			// TODO Data validation
 			settings.availableLangs.addLanguage(new Language(nameText, extensions, lineComChars, blockComChars));
 		}
-	}
-
-	public NewLangDialog() {
-		// TODO Create language adding dialog.
 	}
 }
