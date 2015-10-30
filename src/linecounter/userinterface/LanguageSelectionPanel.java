@@ -4,6 +4,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -24,7 +26,7 @@ import linecounter.Settings;
 @SuppressWarnings("serial")
 public class LanguageSelectionPanel extends SourceCounterPanel {
 
-	private JComboBox<?> languagesDropDown;
+	private JComboBox<String> languagesDropDown;
 	private JTable detailsTable = new JTable();
 	private JScrollPane detailsPane = new JScrollPane(detailsTable);
 	private JButton newLangButton;
@@ -38,8 +40,13 @@ public class LanguageSelectionPanel extends SourceCounterPanel {
 
 		this.settings = set;
 
-		languagesDropDown  = new JComboBox<Object>(settings.availableLangs.availableLangs());
-        languagesDropDown.setSelectedIndex(settings.selectedLangIndex);
+		languagesDropDown  = new JComboBox<>(settings.languages.availableLangs());
+        
+		if (settings.selectedLangIndex < languagesDropDown.getItemCount()) {
+			languagesDropDown.setSelectedIndex(settings.selectedLangIndex);
+		} else {
+			languagesDropDown.setSelectedIndex(0);
+		}
 
         newLangButton = new JButton("Define New Language");
 
@@ -48,11 +55,12 @@ public class LanguageSelectionPanel extends SourceCounterPanel {
 
 		// TODO Make table update.
         updateTable();
+        updateDropdown();
 
         languagesDropDown.addActionListener(new ActionListener() {
 			@Override
             public void actionPerformed(ActionEvent ev) {
-                // Update the settings
+                // Update the selected language index in the settings to the index of the box
                 settings.selectedLangIndex = ((JComboBox<?>) ev.getSource()).getSelectedIndex();
                 updateTable();
             }
@@ -62,7 +70,7 @@ public class LanguageSelectionPanel extends SourceCounterPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				NewLangDialog.showDialog(settings);
-				languagesDropDown = new JComboBox<Object>(settings.availableLangs.availableLangs());
+				updateDropdown();
 			}
 
         });
@@ -107,6 +115,15 @@ public class LanguageSelectionPanel extends SourceCounterPanel {
 
 		DefaultTableModel model = (DefaultTableModel) detailsTable.getModel();
 		model.setDataVector(data, columnNames);
+	}
+	
+	private void updateDropdown() {
+//		DefaultComboBoxModel<String> model = 
+//				(DefaultComboBoxModel<String>) languagesDropDown.getModel();
+//		model.addElement(settings.languages
+//				.availableLangs()[settings.languages.availableLangs().length - 1]);
+		ComboBoxModel<String> model = new DefaultComboBoxModel<>(settings.languages.availableLangs());
+		languagesDropDown.setModel(model);
 	}
 
 	@Override

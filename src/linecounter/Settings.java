@@ -23,7 +23,7 @@ public class Settings implements Serializable {
     private static final String SETTINGS_FILE_NAME 	= "settings.dat";
     private static final String LANGUAGES_FILE_NAME = "languages.xml";
 
-    public transient LanguagesList availableLangs = new LanguagesList();
+    public transient LanguagesList languages = new LanguagesList();
 
     // Make sure that these all have default values, or you might have trouble later.
     // (By trouble I mean NullPointerExceptions)
@@ -57,8 +57,8 @@ public class Settings implements Serializable {
      * @param index
      */
     public void selectLanguage(int index) {
-    	if (index > availableLangs.size() - 1) {
-    		selectedLangIndex = availableLangs.size() - 1;
+    	if (index > languages.size() - 1) {
+    		selectedLangIndex = languages.size() - 1;
         } else if (index < 0) {
     		selectedLangIndex = 0;
     	} else {
@@ -71,8 +71,8 @@ public class Settings implements Serializable {
      * @return The currently selected language.
      */
 	public Language selectedLang() {
-		if (availableLangs.size() > 0) {
-			return availableLangs.get(selectedLangIndex);
+		if (languages.size() > 0) {
+			return languages.get(selectedLangIndex);
 		} else {
 			return new Language();
         }
@@ -114,7 +114,7 @@ public class Settings implements Serializable {
         } finally {
         	// Write all the available languages to an XML file
             LanguagesFileWriter writer = new LanguagesFileWriter();
-            writer.writeList(settings.availableLangs, new File(LANGUAGES_FILE_NAME));
+            writer.writeList(settings.languages, new File(LANGUAGES_FILE_NAME));
         }
     }
 
@@ -145,7 +145,7 @@ public class Settings implements Serializable {
 
             // Read the available languages from an XML file
             LanguagesFileReader reader = new LanguagesFileReader();
-            settings.availableLangs = reader.readList(new File(LANGUAGES_FILE_NAME));
+            settings.languages = reader.readList(new File(LANGUAGES_FILE_NAME));
         }
 
         return settings;

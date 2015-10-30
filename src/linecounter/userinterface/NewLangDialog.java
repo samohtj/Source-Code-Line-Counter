@@ -52,7 +52,16 @@ public class NewLangDialog {
 
 			String[] extensions = extsText.split(",");
 			String[] lineComChars = lncmText.split(",");
-			String[][] blockComChars = {blcmText.split(" ")};
+			String[][] blockComChars;
+			
+			if(!blockComField.getText().equals("")) {
+				blockComChars = new String[][]{blcmText.split(" ")};
+				settings.languages.addLanguage(
+						new Language(nameText, extensions, lineComChars, blockComChars));
+			} else {
+				settings.languages.addLanguage(
+						new Language(nameText, extensions, lineComChars));
+			}
 
 			/*
 			System.out.println("Name: " + nameText);
@@ -62,7 +71,7 @@ public class NewLangDialog {
 			*/
 
 			// TODO Data validation
-			settings.availableLangs.addLanguage(new Language(nameText, extensions, lineComChars, blockComChars));
+			
 		}
 	}
 }

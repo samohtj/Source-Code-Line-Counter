@@ -56,10 +56,17 @@ public class LanguagesFileReader {
 			}
 
 			// Create a new Language object from the information we just gathered, and return it.
-			Language language = new Language(name,
-					extensions.toArray(new String[] {}),
-					lineCommentChars.toArray(new String[] {}),
-					blockCommentChars.toArray(new String[][] {}));
+			Language language;
+			if (lang.getChildren("blockCommentChars").size() > 0) {
+				language = new Language(name,
+						extensions.toArray(new String[] {}),
+						lineCommentChars.toArray(new String[] {}),
+						blockCommentChars.toArray(new String[][] {}));
+			} else {
+				language = new Language(name,
+						extensions.toArray(new String[] {}),
+						lineCommentChars.toArray(new String[] {}));
+			}
 
 			list.add(language);
 		}

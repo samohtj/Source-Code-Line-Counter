@@ -69,7 +69,7 @@ public class LanguagesFileWriter {
 
 			// Create a blockCommentChars element to store opening and closing block comment characters.
 			for (String[] text: language.blockCommentDelimiters) {
-				if (language.blockCommentDelimiters.length ==0) {
+				if (!language.hasBlockComments()) {
 					break;
 				}
 				Element blockComElement = new Element("blockCommentChars");

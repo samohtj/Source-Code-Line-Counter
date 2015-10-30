@@ -53,4 +53,10 @@
     <lineCommentChar text="#" />
     <blockCommentChars opening="&quot;&quot;&quot;" closing="&quot;&quot;&quot;" />
   </language>
+  <language name="Ruby">
+    <extensions>
+      <extension text="rb" />
+    </extensions>
+    <lineCommentChar text="#" />
+  </language>
 </languages>
