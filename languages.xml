@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<languages>
+  <language name="C">
+    <extensions>
+      <extension text="c" />
+      <extension text="h" />
+    </extensions>
+    <lineCommentChar text="//" />
+    <blockCommentChars opening="/*" closing="*/" />
+  </language>
+  <language name="C++">
+    <extensions>
+      <extension text="cc" />
+      <extension text="cpp" />
+      <extension text="cxx" />
+      <extension text="C" />
+      <extension text="c++" />
+      <extension text="h" />
+      <extension text="hh" />
+      <extension text="hpp" />
+      <extension text="hxx" />
+      <extension text="h++" />
+    </extensions>
+    <lineCommentChar text="//" />
+    <blockCommentChars opening="/*" closing="*/" />
+  </language>
+  <language name="C#">
+    <extensions>
+      <extension text="cs" />
+    </extensions>
+    <lineCommentChar text="//" />
+    <blockCommentChars opening="/*" closing="*/" />
+  </language>
+  <language name="Java">
+    <extensions>
+      <extension text="java" />
+    </extensions>
+    <lineCommentChar text="//" />
+    <blockCommentChars opening="/*" closing="*/" />
+  </language>
+  <language name="PHP">
+    <extensions>
+      <extension text="php" />
+    </extensions>
+    <lineCommentChar text="//" />
+    <lineCommentChar text="#" />
+    <blockCommentChars opening="/*" closing="*/" />
+  </language>
+  <language name="Python">
+    <extensions>
+      <extension text="py" />
+    </extensions>
+    <lineCommentChar text="#" />
+    <blockCommentChars opening="&quot;&quot;&quot;" closing="&quot;&quot;&quot;" />
+  </language>
+  <language name="Ruby">
+    <extensions>
+      <extension text="rb" />
+    </extensions>
+    <lineCommentChar text="#" />
+  </language>
+</languages>

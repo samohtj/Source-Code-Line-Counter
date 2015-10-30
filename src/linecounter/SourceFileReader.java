@@ -7,9 +7,9 @@ import java.io.LineNumberReader;
 import java.util.Scanner;
 
 /**
- * SourceFileReader
- * A class that reads a source code file, and determines the number of lines it contains. This class can
- * sort out comment lines, and return both the number of comment lines and lines with actual code.
+ * SourceFileReader reads a source code file, and determines the number of lines it contains. This
+ * class can sort out comment lines, and return both the number of comment lines and lines with
+ * actual code.
  * @author Jonathan Thomas
  *
  */
@@ -18,36 +18,51 @@ public class SourceFileReader {
     private File theFile;           // The file to check
     private String[] commentChars;  // Characters that start a comment in this language.
 
-    public long totalLines      = 0;// Total number of lines of any kind in the file
-    public long commentLines    = 0;// Total number of comment lines in the file
+    private long totalLines = 0;    // Total number of lines of any kind in the file
 
-    public SourceFileReader(File file, Language language, boolean ignoreComments){
+    /**
+     * Construct a new SourceFileReader from the given parameters.
+     * @param File The file to read.
+     * @param Language The language the file is written in.
+     * @param ignoreComments Whether to ignore lines that are commented.
+     */
+    public SourceFileReader(File file, Language language, boolean ignoreComments) {
         this.theFile = file;
         this.commentChars = language.lineCommentChars;
 
         numberOfLines(ignoreComments);
     }
 
-    public void numberOfLines(boolean ignoreComments){
+    /**
+     * Total lines in the project.
+     * @return The total number of lines in this source file.
+     */
+    public long totalLines() {
+    	return totalLines;
+    }
+
+    /**
+     * Count the number of lines in a source file. If {@code ignoreComments} is true, the method will
+     * not add commented lines to the count. The resultant count will be placed into
+     * @param ignoreComments Whether to ignore commented lines.
+     * TODO Make ignore comments always true.
+     */
+    private void numberOfLines(boolean ignoreComments) {
 
         // Try to read the total number of lines in the file
         try {
             // Create a LineNumberReader object and give it the file
-            if(ignoreComments){
+            if (ignoreComments) {
                 LineNumberReader reader = new LineNumberReader(new FileReader(theFile));
                 reader.skip(Long.MAX_VALUE);
                 totalLines = reader.getLineNumber();
                 reader.close(); // Close the reader!
-            }
-            else
-            {
+            } else {
                 // TODO Block comment detector
                 Scanner in = new Scanner(theFile);
-                while(in.hasNext()){
+                while (in.hasNext()) {
                     String line = in.nextLine();
-                    if(detectCommentLine(line)){
-                        commentLines++;
-                    }else{
+                    if (!detectCommentLine(line)) {
                         totalLines++;
                     }
                 }
@@ -59,25 +74,29 @@ public class SourceFileReader {
         }
     }
 
-    public boolean detectCommentLine(String line){
-        // Split the first comment character into an array of chars
-        char[] commentCharList = commentChars[0].toCharArray();
+    /**
+     * Detect whether a line is commented out.
+     * @param  line The line to check.
+     * @return      Whether the line is a comment or not.
+     */
+    public boolean detectCommentLine(String line) {
 
-        // Split the line character into an array of chars, and trim off whitespace
+        char[] commentCharList = commentChars[0].toCharArray();
         char[] lineChars = line.trim().toCharArray();
 
-        // If the line is empty, return false. Also decrement the total line count, negating the value
-        // that will be added should this function return false
-        if(lineChars.length==0){
+        // If the line is empty, return false. Also decrement the total line count, negating the
+        // value that will be added should this function return false
+        if (lineChars.length==0) {
             totalLines--;
             return false;
         }
 
-        // Loop through the characters of the comment list. If the comment characters don't match the line characters,
-        // return false. This line is not a comment
-        for(int i = 0; i<commentCharList.length; i++){
-            if(lineChars[i] != commentCharList[i])
+        // Loop through the characters of the comment list. If the comment characters don't match
+        // the line characters, return false. This line is not a comment
+        for (int i = 0; i<commentCharList.length; i++) {
+            if (lineChars[i] != commentCharList[i]) {
                 return false;
+            }
         }
 
 

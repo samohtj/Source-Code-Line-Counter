@@ -1,7 +1,6 @@
 package linecounter;
 
 import java.io.File;
-import javax.swing.JFileChooser;
 
 /**
  * ProjectReader will take a given folder, search through it, and use a SourceFileReader to process
@@ -18,33 +17,37 @@ public class ProjectReader {
     private long numFolders = 0;
 
     private long totalLines     = 0;
-    private long commentLines   = 0;
 
-    public File rootFolder = null;
-    private Lanugage language;
-    private boolean ignoreComments;
+    public Settings settings;
 
     /*
      * Getters for the various line counts
      */
-    public long totalLines() {return totalLines;}
-    public long commentLines() {return commentLines;}
-    public long numFiles() {return numFiles;}
-    public long numFolders() {return numFolders;}
+    public long totalLines() { return totalLines; }
+    public long numFiles() { return numFiles; }
+    public long numFolders() { return numFolders; }
+
+    /**
+     * Construct a project reader from the given settings.
+     * @param settings Settings to use.
+     */
+    public ProjectReader(Settings settings) {
+    	this.settings = settings;
+    }
 
     /**
      * Run the program on the set root folder.
      * @param ignoreComments
      */
-    public void run(boolean ignoreComments) {
+    public RunResult run() {
         // Reset counters before running the program!
-        totalLines      = 0;
-        commentLines    = 0;
         numFiles        = 0;
         numFolders      = 0;
+        totalLines      = 0;
 
-        this.ignoreComments = ignoreComments;
-        recursiveDirectoryCheck(rootFolder);
+        recursiveDirectoryCheck(settings.rootFolder);
+
+        return new RunResult(numFiles, numFolders, totalLines);
     }
 
     /**
@@ -56,23 +59,25 @@ public class ProjectReader {
         File[] files = dir.listFiles();
 
         // If no files are found in this directory, end the function
-        if(files==null)
+        if (files==null) {
             return;
+        }
 
-        for(File file: files) {
+        for (File file: files) {
             // If the current file is a directory, perform this same process again
-            if(file.isDirectory()) {
+            if (file.isDirectory()) {
                 recursiveDirectoryCheck(file);
                 numFolders++;
             }
             // Ignore files that do not contain source code
-            else if(isSourceCodeFile(file)) {
+            else if (isSourceCodeFile(file)) {
                 numFiles++;
 
                 // Create a source file reader for the file, and add its line count to the total count
-                SourceFileReader reader =  new SourceFileReader(file, languageIndex, ignoreComments);
-                totalLines += reader.totalLines;
-                commentLines += reader.commentLines;
+                SourceFileReader reader =  new SourceFileReader(file,
+                		settings.selectedLang(),
+                		settings.ignoreComments);
+                totalLines += reader.totalLines();
             }
         }
     }
@@ -87,48 +92,14 @@ public class ProjectReader {
         String[] bits = file.getName().split("\\.");
 
         // If the file even has an extension, check to see if it's valid
-        if(bits.length>1) {
-            for(String ext: LanguagesList.availableExtensions[languageIndex]) {
-                if(ext.equals(bits[bits.length-1]))
+        if (bits.length>1) {
+            for (String ext: settings.selectedLang().extensions) {
+                if (ext.equals(bits[bits.length-1])) {
                     return true;
+                }
             }
         }
-        
+
         return false;
-    }
-
-    /**
-     * Choose the root folder of a project using a JFileChooser dialog.
-     * @return A file on the system somewhere, to be treated as the root folder of a project.
-     * @throws NoFileChosenException If no file is chosen (i.e. the user hits the "cancel" button)
-     */
-    public void chooseRootFolder() throws NoFileChosenException{
-        // Create a new file chooser dialog
-        JFileChooser chooser = new JFileChooser();
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-        // If the user hits the cancel button, throw an exception
-        if(chooser.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION)
-            throw new NoFileChosenException();
-
-        this.rootFolder = chooser.getSelectedFile();
-    }
-
-    /**
-     * Set the language index for this project.
-     * @param languageIndex
-     */
-    public void setLanguage(int languageIndex) {
-        this.languageIndex = languageIndex;
-    }
-
-    /**
-     * Create a new ProjectReader object with the given settings.
-     * @param settings
-     */
-    public ProjectReader(Settings settings) {
-        this.ignoreComments = settings.ignoreComments;
-        this.language = settings.selectedLanguage;
-        this.rootFolder = settings.rootFolder;
     }
 }
