@@ -63,3 +63,4 @@ $RECYCLE.BIN/
 /lib
 /.settings
 .project
+*.dat
