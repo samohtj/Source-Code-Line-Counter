@@ -58,7 +58,6 @@ public class SourceFileReader {
                 totalLines = reader.getLineNumber();
                 reader.close(); // Close the reader!
             } else {
-                // TODO Block comment detector
                 Scanner in = new Scanner(theFile);
                 while (in.hasNext()) {
                     String line = in.nextLine();

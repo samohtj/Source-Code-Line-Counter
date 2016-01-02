@@ -28,17 +28,14 @@ public class NewLangDialog {
 		JTextField nameField = new JTextField(10);
 		JTextField extensionsField = new JTextField(10);
 		JTextField lineComField = new JTextField(10);
-		JTextField blockComField = new JTextField(10);
 
-		JPanel panel = new JPanel(new GridLayout(4, 2));
+		JPanel panel = new JPanel(new GridLayout(3, 2));
 		panel.add(new JLabel("Name:"));
 		panel.add(nameField);
 		panel.add(new JLabel("Extensions:"));
 		panel.add(extensionsField);
-		panel.add(new JLabel("Line comment characters:"));
+		panel.add(new JLabel("Line comment characters: "));
 		panel.add(lineComField);
-		panel.add(new JLabel("Block comment characters:"));
-		panel.add(blockComField);
 
 		int result = JOptionPane.showConfirmDialog(null, panel,
 				"Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
@@ -48,20 +45,13 @@ public class NewLangDialog {
 			String nameText = nameField.getText().replaceAll("\\s+","");
 			String extsText = extensionsField.getText().replaceAll("\\s+","");
 			String lncmText = lineComField.getText().replaceAll("\\s+","");
-			String blcmText = blockComField.getText();
 
 			String[] extensions = extsText.split(",");
 			String[] lineComChars = lncmText.split(",");
 			String[][] blockComChars;
-			
-			if(!blockComField.getText().equals("")) {
-				blockComChars = new String[][]{blcmText.split(" ")};
-				settings.languages.addLanguage(
-						new Language(nameText, extensions, lineComChars, blockComChars));
-			} else {
-				settings.languages.addLanguage(
-						new Language(nameText, extensions, lineComChars));
-			}
+
+			settings.languages.addLanguage(new Language(nameText, extensions, lineComChars));
+
 
 			/*
 			System.out.println("Name: " + nameText);
@@ -73,5 +63,9 @@ public class NewLangDialog {
 			// TODO Data validation
 			
 		}
+	}
+	
+	public static void main(String[] args) {
+		showDialog(null);
 	}
 }

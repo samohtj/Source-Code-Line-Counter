@@ -29,7 +29,6 @@ public class LanguagesFileWriter {
 	 *             <extension text="java"/>
 	 *         </extensions>
 	 *         <lineCommentChar text="//"/
-	 *         <blockCommentChars opening="/*" closing="* /"/>
 	 *     </language>
 	 * </languages>
 	 * }
@@ -65,17 +64,6 @@ public class LanguagesFileWriter {
 				Element lineComElement = new Element("lineCommentChar");
 				lineComElement.setAttribute("text", text);
 				languageElement.addContent(lineComElement);
-			}
-
-			// Create a blockCommentChars element to store opening and closing block comment characters.
-			for (String[] text: language.blockCommentDelimiters) {
-				if (!language.hasBlockComments()) {
-					break;
-				}
-				Element blockComElement = new Element("blockCommentChars");
-				blockComElement.setAttribute("opening", text[0]);
-				blockComElement.setAttribute("closing", text[1]);
-				languageElement.addContent(blockComElement);
 			}
 
 			// Add the newly populated language element to the root element.

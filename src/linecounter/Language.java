@@ -12,28 +12,6 @@ public class Language {
     public String name;
     public String[] extensions;
     public String[] lineCommentChars;
-    public String[][] blockCommentDelimiters;
-    
-    private boolean hasBlockComments;
-
-    /**
-     * Construct a new Language <i>with</i> block comments.
-     * @param   name Name of the language.
-     * @param   extensions File extensions.
-     * @param   lineCommentChars Line comment characters.
-     * @param   blockCommentDelimiters Block comment characters.
-     * @return  New Language object.
-     */
-    public Language(String name,
-    		String[] extensions,
-    		String[] lineCommentChars,
-    		String[][] blockCommentDelimiters) {
-        this.name = name;
-        this.extensions = extensions;
-        this.lineCommentChars = lineCommentChars;
-        this.blockCommentDelimiters = blockCommentDelimiters;
-        hasBlockComments = true;
-    }
     
     /**
      * Construct a new Language with <i>no</i> block comments.
@@ -48,8 +26,6 @@ public class Language {
     	this.name = name;
     	this.extensions = extensions;
     	this.lineCommentChars = lineCommentChars;
-    	blockCommentDelimiters = new String[0][];
-    	hasBlockComments = false;
     }
 
     /**
@@ -57,7 +33,7 @@ public class Language {
      * @return Default Language.
      */
     public Language() {
-    	this("Java", new String[]{"java"}, new String[]{"//"}, new String[][]{{"/*", "*/"}});
+    	this("Java", new String[]{"java"}, new String[]{"//"});
     }
 
     /**
@@ -65,7 +41,7 @@ public class Language {
      * @return
      */
     public String[] allCommentChars() {
-    	String[] list = new String[lineCommentChars.length+blockCommentDelimiters.length];
+    	String[] list = new String[lineCommentChars.length];
     	
     	if (list.length == 0) {
     		return list;
@@ -74,19 +50,7 @@ public class Language {
     	for (int i = 0; i < lineCommentChars.length; i++) {
     		list[i] = lineCommentChars[i];
     	}
-
-    	if(this.hasBlockComments) {
-	    	for (int i = 0; i < blockCommentDelimiters.length; i++) {
-	    		list[i + lineCommentChars.length] = blockCommentDelimiters[i][0] + " ... "
-	    				+ blockCommentDelimiters[i][1];
-	    	}
-    	}
-
     	return list;
-    }
-    
-    public boolean hasBlockComments() {
-    	return hasBlockComments;
     }
 
     /**
@@ -95,7 +59,6 @@ public class Language {
     public String toString() {
     	return name
     			+ "\nAvailable exts: " + Arrays.toString(extensions)
-    			+ "\nComment char: " + Arrays.toString(lineCommentChars)
-    			+ "\nBlock: " + Arrays.toString(blockCommentDelimiters);
+    			+ "\nComment char: " + Arrays.toString(lineCommentChars);
     }
 }
