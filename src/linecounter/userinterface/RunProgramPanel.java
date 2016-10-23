@@ -39,7 +39,7 @@ import linecounter.Settings;
 @SuppressWarnings("serial")
 public class RunProgramPanel extends SourceCounterPanel {
 
-	private JButton runButton;
+	private JButton rerunButton;
     private JCheckBox ignoreCommentsCheckbox;
 
     Settings settings;
@@ -53,20 +53,20 @@ public class RunProgramPanel extends SourceCounterPanel {
 
 		this.settings = set;
 
-		runButton = new JButton("Run counter");
+		rerunButton = new JButton("Recount");
 		ignoreCommentsCheckbox = new JCheckBox("Include comments and whitespace");
 
 		ignoreCommentsCheckbox.setSelected(settings.ignoreComments);
 
         ignoreCommentsCheckbox.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent ev) {
-        		settings.ignoreComments = ignoreCommentsCheckbox.isSelected();
+        		settings.ignoreComments = !ignoreCommentsCheckbox.isSelected();
         	}
         });
 
-        setLayout(new GridLayout(2, 1));
-        add(runButton);
+        setLayout(new GridLayout(1, 2));
         add(ignoreCommentsCheckbox);
+        add(rerunButton);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class RunProgramPanel extends SourceCounterPanel {
 	 * @param listener Listener to add.
 	 */
 	public void addButtonListener(ActionListener listener) {
-		runButton.addActionListener(listener);
+		rerunButton.addActionListener(listener);
 	}
 
 	/**

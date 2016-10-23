@@ -51,7 +51,7 @@ public class UserInterface extends JFrame{
     public UserInterface(){
 
         final ProjectReader projectReader = new ProjectReader(settings);
-
+/* TODO Decide whether to force file choosing when no settings are saved.
         if (settings.rootFolder==null) {
             try {
                 settings.chooseRootFolder();
@@ -60,7 +60,7 @@ public class UserInterface extends JFrame{
                 System.exit(0);
             }
         }
-
+*/
         // Create panels to store the two different selection options (project folder and language)
         SourceCounterPanel langSelectionPanel   	= new LanguageSelectionPanel(settings);
         SourceCounterPanel projectSelectionPanel	= new ProjectSelectionPanel(settings);
@@ -87,13 +87,13 @@ public class UserInterface extends JFrame{
             }
         });
 
-        JPanel leftPanel = new JPanel(new GridLayout(3, 1));
-        leftPanel.add(projectSelectionPanel);
-        leftPanel.add(runProgramPanel);
-        leftPanel.add(resultsPanel);
+        JPanel topPanel = new JPanel(new GridLayout(1, 2));
+        topPanel.add(projectSelectionPanel);
+        topPanel.add(langSelectionPanel);
 
-        this.setLayout(new GridLayout(1, 2));
-        this.add(leftPanel);
-        this.add(langSelectionPanel);
+        this.setLayout(new GridLayout(3, 1));
+        this.add(topPanel);
+        this.add(resultsPanel);
+        this.add(runProgramPanel);
     }
 }

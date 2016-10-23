@@ -20,13 +20,14 @@
 
 package linecounter.userinterface;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.border.TitledBorder;
 
 import linecounter.NoFileChosenException;
 import linecounter.RunResult;
@@ -42,7 +43,7 @@ import linecounter.Settings;
 public class ProjectSelectionPanel extends SourceCounterPanel {
 
 	private JLabel rootFolderLabel		= new JLabel("Root folder: None selected");
-    private JButton chooseRootButton	= new JButton("Choose root folder");
+    private JButton chooseRootButton	= new JButton("Choose your source folder");
 
 	/**
 	 * Construct a new panel for project slection.
@@ -66,7 +67,7 @@ public class ProjectSelectionPanel extends SourceCounterPanel {
         setLayout(new GridLayout(2, 1));
         add(chooseRootButton);
         add(rootFolderLabel);
-        setBorder(new TitledBorder("Project"));
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
 	/**

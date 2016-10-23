@@ -23,7 +23,6 @@ package linecounter.userinterface;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
-import javax.swing.border.TitledBorder;
 
 import linecounter.RunResult;
 import linecounter.Settings;
@@ -42,9 +41,8 @@ import linecounter.Settings;
 public class ResultsPanel extends SourceCounterPanel {
 
     // Results labels
-    private JLabel numLinesLabel    = new JLabel();
-    private JLabel numFilesLabel    = new JLabel();
-    private JLabel numFoldersLabel  = new JLabel();
+    private JLabel numLinesLabel = new JLabel();
+    private JLabel numFilesLabel = new JLabel();
 
     Settings settings;
 
@@ -54,12 +52,10 @@ public class ResultsPanel extends SourceCounterPanel {
 	 * @return     New ResultsPanel object.
 	 */
 	public ResultsPanel(Settings set) {
-		setLayout(new GridLayout(3, 2));
+		setLayout(new GridLayout(3, 1));
+		add(new JLabel("Results"));
         add(numLinesLabel);
         add(numFilesLabel);
-        add(new JLabel());
-        add(numFoldersLabel);
-        setBorder(new TitledBorder("Results"));
 	}
 
 	/**
@@ -68,8 +64,7 @@ public class ResultsPanel extends SourceCounterPanel {
 	 */
 	@Override
 	public void update(RunResult result) {
-		numLinesLabel.setText("Total lines: "+result.totalLines());
-        numFilesLabel.setText("Total files searched: "+result.numFiles());
-        numFoldersLabel.setText("Total folders searched: "+result.numFolders());
+		numLinesLabel.setText("Found " + result.totalLines() + " lines");
+        numFilesLabel.setText("in " + result.numFiles() + " files.");
 	}
 }
