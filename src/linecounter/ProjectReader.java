@@ -93,11 +93,10 @@ public class ProjectReader {
             else if (isSourceCodeFile(file)) {
                 numFiles++;
 
-                // Create a source file reader for the file, and add its line count to the total count
-                SourceFileReader reader =  new SourceFileReader(file,
-                		settings.selectedLang(),
+                totalLines += SourceFileReader.numberOfLines(
+                		file, 
+                		settings.selectedLang(), 
                 		settings.ignoreComments);
-                totalLines += reader.totalLines();
             }
         }
     }

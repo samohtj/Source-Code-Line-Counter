@@ -28,60 +28,36 @@ import java.util.Scanner;
 
 /**
  * SourceFileReader reads a source code file, and determines the number of lines it contains. This
- * class can sort out comment lines, and return both the number of comment lines and lines with
- * actual code.
+ * class can filter out comments and whitespace if desired.
  * @author Jonathan Thomas
  *
  */
 public class SourceFileReader {
 
-    private File theFile;           // The file to check
-    private String[] commentChars;  // Characters that start a comment in this language.
-
-    private long totalLines = 0;    // Total number of lines of any kind in the file
-
     /**
-     * Construct a new SourceFileReader from the given parameters.
-     * @param File The file to read.
-     * @param Language The language the file is written in.
-     * @param ignoreComments Whether to ignore lines that are commented.
-     */
-    public SourceFileReader(File file, Language language, boolean ignoreComments) {
-        this.theFile = file;
-        this.commentChars = language.lineCommentChars;
-
-        numberOfLines(ignoreComments);
-    }
-
-    /**
-     * Total lines in the project.
-     * @return The total number of lines in this source file.
-     */
-    public long totalLines() {
-    	return totalLines;
-    }
-
-    /**
-     * Count the number of lines in a source file. If {@code ignoreComments} is true, the method will
+     * Count the number of lines in a source file. If {@code shouldCountComments} is true, the method will
      * not add commented lines to the count. The resultant count will be placed into
-     * @param ignoreComments Whether to ignore commented lines.
+     * @param filter If true, filter out comments and whitespace.
      * TODO Make ignore comments always true.
      */
-    private void numberOfLines(boolean ignoreComments) {
+    public static long numberOfLines(File file, Language language, boolean filter) {
 
-        // Try to read the total number of lines in the file
+    	long totalLines = 0;
+    	
         try {
-            // Create a LineNumberReader object and give it the file
-            if (ignoreComments) {
-                LineNumberReader reader = new LineNumberReader(new FileReader(theFile));
+            if (!filter) {
+            	// If we don't care about whitespace and comments, just read the number of newlines
+                LineNumberReader reader = new LineNumberReader(new FileReader(file));
                 reader.skip(Long.MAX_VALUE);
                 totalLines = reader.getLineNumber();
                 reader.close(); // Close the reader!
             } else {
-                Scanner in = new Scanner(theFile);
+                Scanner in = new Scanner(file);
+                // Make this a single element array so we can cheat passing by reference
+                boolean isInsideBlockComm[] = {false};
                 while (in.hasNext()) {
                     String line = in.nextLine();
-                    if (!detectCommentLine(line)) {
+                    if (lineShouldBeCounted(line, isInsideBlockComm)) {
                         totalLines++;
                     }
                 }
@@ -91,40 +67,59 @@ public class SourceFileReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        return totalLines;
     }
 
     /**
-     * Detect whether a line is commented out.
-     * @param  line The line to check.
-     * @return      Whether the line is a comment or not.
+     * Decide whether a line should be counted, based on our filter criterion. Those being:
+     * <ul><li>Contains more than just whitespace</li>
+     * <li>Doesn't start with the line comment characters</li>
+     * <li>Isn't enclosed completely inside a block comment</li></ul>
+     * @param line
+     * @return
      */
-    public boolean detectCommentLine(String line) {
-
-        char[] commentCharList = commentChars[0].toCharArray();
-        char[] lineChars = line.trim().toCharArray();
-
-        // If the line is empty, return false. Also decrement the total line count, negating the
-        // value that will be added should this function return false
-        if (lineChars.length==0) {
-            totalLines--;
-            return false;
-        }
-
-        // Loop through the characters of the comment list. If the comment characters don't match
-        // the line characters, return false. This line is not a comment
-        for (int i = 0; i<commentCharList.length; i++) {
-            if (lineChars[i] != commentCharList[i]) {
-                return false;
-            }
-        }
-
-
-        // TODO Add support for languages with more than one line comment character
-        /*
-        if(commentChars.length > 3)
-            detectCommentLine(line);
-        */
-        // If we haven't discovered that a line isn't a comment, then it must be a comment
-        return true;
+    private static boolean lineShouldBeCounted(String line, boolean isInsideBlockComm[]) {
+    	String lineChars = line.trim();
+    	// TODO Read these in dynamically, support more than just one language.
+    	String blockStart = "/*";
+    	String blockEnd = "*/";
+    	String lineStart = "//";
+    	
+    	// Don't count whitespace lines
+    	if (lineChars.isEmpty())
+    		return false;
+    	
+    	if (isInsideBlockComm[0]) {
+    		if (lineChars.contains(blockEnd)) {
+    			isInsideBlockComm[0] = false;
+    			
+    			// Return true if there are any more characters after the block comment end
+    			return !lineChars.endsWith(blockEnd);
+    		} else {
+    			return false;
+    		}
+    		
+    	} else {
+    		// Don't count line comments
+    		if (lineChars.startsWith(lineStart))
+    			return false;
+    		
+    		if (lineChars.contains(blockStart)) {	
+    			isInsideBlockComm[0] = true;
+    			
+    			// Return true if there were some characters before the block comment started
+    			return !lineChars.startsWith(blockStart); 
+    		} else {
+    			return true;
+    		}
+    	}
     }
+    
+    /* Use this to test
+    public static void main(String args[]) {
+    	long lines = SourceFileReader.numberOfLines(new File("test.java"), new Language(), true);
+    	System.out.println("The reader found " + lines + " lines of code.");
+    }
+    */
 }
