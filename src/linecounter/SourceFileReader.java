@@ -106,10 +106,13 @@ public class SourceFileReader {
     			return false;
     		
     		if (lineChars.contains(blockStart)) {	
-    			isInsideBlockComm[0] = true;
+                // If the block comment only lasts one line, we aren't inside a block comment.
+    			isInsideBlockComm[0] = !lineChars.contains(blockEnd);
     			
     			// Return true if there were some characters before the block comment started
-    			return !lineChars.startsWith(blockStart); 
+                // or after it, if the block only lasts one line
+    			return !lineChars.startsWith(blockStart) || 
+                    (lineChars.contains(blockEnd) && !lineChars.endsWith(blockEnd)); 
     		} else {
     			return true;
     		}
